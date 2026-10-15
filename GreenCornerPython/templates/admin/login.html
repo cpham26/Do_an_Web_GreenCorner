@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Đăng Nhập Quản Trị - Green Corner Admin</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/bootstrap/dist/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}" />
+    
+    <style>
+        body.admin-login-body {
+            min-height: 100vh;
+            background: #030604;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 15px;
+            position: relative;
+            overflow-x: hidden;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .admin-login-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.16) 0%, rgba(5, 150, 105, 0.05) 50%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .admin-login-card {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 460px;
+            background: rgba(14, 24, 18, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 28px;
+            padding: 40px 36px;
+            backdrop-filter: blur(32px);
+            -webkit-backdrop-filter: blur(32px);
+            box-shadow: 0 35px 90px rgba(0, 0, 0, 0.7), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.18);
+            color: #ffffff;
+        }
+
+        .admin-login-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
+        }
+
+        .admin-login-brand span.icon {
+            font-size: 1.8rem;
+        }
+
+        .admin-login-portal-tag {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(52, 211, 153, 0.35);
+            color: #34d399;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 999px;
+            margin-bottom: 24px;
+        }
+
+        .admin-login-form .form-label {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 8px;
+        }
+
+        .admin-login-form .form-control {
+            background: rgba(10, 18, 14, 0.8) !important;
+            border: 1px solid rgba(255, 255, 255, 0.14) !important;
+            color: #ffffff !important;
+            border-radius: 14px !important;
+            padding: 12px 16px !important;
+            font-size: 0.95rem !important;
+        }
+
+        .admin-login-form .form-control:focus {
+            border-color: #34d399 !important;
+            box-shadow: 0 0 20px rgba(52, 211, 153, 0.35) !important;
+        }
+
+        .btn-admin-submit {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            font-weight: 700;
+            padding: 14px;
+            border-radius: 14px;
+            font-size: 1rem;
+            transition: all 200ms ease;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.35);
+        }
+
+        .btn-admin-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 40px rgba(16, 185, 129, 0.45);
+            color: #ffffff;
+        }
+
+
+        .admin-back-link {
+            color: #34d399;
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 180ms ease;
+        }
+
+        .admin-back-link:hover {
+            color: #6ee7b7;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body class="admin-login-body">
+    <div class="admin-login-glow"></div>
+
+    <div class="admin-login-card text-center">
+        <div class="admin-login-brand">
+            <span class="icon">🌿</span>
+            <span>Green Corner</span>
+        </div>
+        <div class="admin-login-portal-tag">CỔNG QUẢN TRỊ VIÊN • ADMIN PORTAL</div>
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {% if category == 'error' %}alert-danger{% elif category == 'info' %}alert-info{% elif category == 'warning' %}alert-warning{% else %}alert-success{% endif %} alert-dismissible fade show text-start py-2 px-3 mb-4 rounded-3 small" role="alert">
+                        <span>{{ message }}</span>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="post" action="{{ url_for('admin.login') }}" class="admin-login-form text-start">
+            <input type="hidden" name="next" value="{{ request.args.get('next') or request.args.get('returnUrl') or '' }}" />
+            <div class="mb-3">
+                <label for="adminEmail" class="form-label">Email Quản Trị Viên</label>
+                <input type="email" class="form-control" id="adminEmail" name="email" value="{{ email or '' }}" required autofocus placeholder="admin@greencorner.vn" />
+            </div>
+
+            <div class="mb-4">
+                <label for="adminPassword" class="form-label">Mật Khẩu Quản Trị</label>
+                <input type="password" class="form-control" id="adminPassword" name="password" required placeholder="Nhập mật khẩu quản trị..." />
+            </div>
+
+            <button type="submit" class="btn btn-admin-submit w-100 mb-4">
+                Đăng Nhập Cổng Quản Trị →
+            </button>
+
+            <div class="text-center">
+                <a href="{{ url_for('main.index') }}" class="admin-back-link">
+                    ← Quay lại Website Khách Hàng
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='lib/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+</body>
+</html>

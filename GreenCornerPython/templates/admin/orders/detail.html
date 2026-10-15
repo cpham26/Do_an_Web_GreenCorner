@@ -1,0 +1,116 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Chi Tiết Đơn Hàng #{{ order.order_id }} - Green Corner Admin{% endblock %}
+{% block page_title %}Đơn hàng #GC-{{ order.order_id }}{% endblock %}
+
+{% block content %}
+<div class="row g-4" style="max-width: 1000px;">
+    <!-- Order Details & Products -->
+    <div class="col-lg-8">
+        <div class="admin-panel mb-4">
+            <h5 class="fw-bold mb-3 text-white">Sản phẩm đã đặt</h5>
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th class="text-center">Số lượng</th>
+                            <th class="text-end">Đơn giá</th>
+                            <th class="text-end">Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for detail in order.order_details %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    {% if detail.product %}
+                                        <img src="{{ detail.product.image_url }}" alt="{{ detail.product_name_snapshot }}" class="rounded-2" style="width: 44px; height: 44px; object-fit: cover;" />
+                                    {% endif %}
+                                    <div>
+                                        <strong class="text-white">{{ detail.product_name_snapshot }}</strong>
+                                        {% if detail.product %}
+                                        <small class="text-muted d-block">{{ detail.product.category.category_name }}</small>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center text-white">{{ detail.quantity }}</td>
+                            <td class="text-end text-white">{{ detail.unit_price | currency }}</td>
+                            <td class="text-end fw-bold text-success">{{ detail.formatted_line_total }}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td colspan="3" class="text-end text-muted">Phí giao hàng:</td>
+                            <td class="text-end fw-semibold text-white">{{ order.shipping_fee | currency }}</td>
+                        </tr>
+                        <tr style="background: rgba(255,255,255,0.03);">
+                            <td colspan="3" class="fw-bold text-end text-white">Tổng thanh toán:</td>
+                            <td class="text-end fw-bold fs-5 text-success">{{ order.formatted_total }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="admin-panel">
+            <h5 class="fw-bold mb-3 text-white">Thông tin người nhận</h5>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <small class="text-muted d-block">Họ và tên:</small>
+                    <strong class="text-white">{{ order.receiver_name }}</strong>
+                </div>
+                <div class="col-md-6">
+                    <small class="text-muted d-block">Số điện thoại:</small>
+                    <strong class="text-white">{{ order.phone }}</strong>
+                </div>
+                <div class="col-12">
+                    <small class="text-muted d-block">Địa chỉ giao cây:</small>
+                    <span class="text-white">{{ order.address }}</span>
+                </div>
+                {% if order.order_notes %}
+                <div class="col-12">
+                    <small class="text-muted d-block">Ghi chú của khách:</small>
+                    <em class="text-white-50">{{ order.order_notes }}</em>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Actions & Status Form -->
+    <div class="col-lg-4">
+        <div class="admin-panel mb-4">
+            <h5 class="fw-bold mb-3 text-white">Cập nhật trạng thái</h5>
+            
+            <form method="post" action="{{ url_for('admin.update_order_status', order_id=order.order_id) }}">
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold text-white">Trạng thái hiện tại</label>
+                    <select name="status" class="form-select">
+                        {% set statuses = ['Chờ xác nhận', 'Đã xác nhận', 'Đang giao', 'Hoàn thành', 'Đã hủy'] %}
+                        {% for st in statuses %}
+                            <option value="{{ st }}" {% if order.status == st %}selected{% endif %}>{{ st }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-green w-100 py-2 rounded-pill mb-2">
+                    Lưu Trạng Thái
+                </button>
+            </form>
+
+            <hr class="border-secondary border-opacity-25 my-3" />
+
+            <div class="small">
+                <div class="mb-1 text-muted">Phương thức TT: <strong class="text-white">{{ order.payment_method }}</strong></div>
+                <div class="mb-1 text-muted">Mã đơn: <strong class="text-white">#GC-{{ order.order_id }}</strong></div>
+                <div class="mb-0 text-muted">Ngày đặt: <strong class="text-white">{{ order.created_at | datetime }}</strong></div>
+            </div>
+        </div>
+
+        <a href="{{ url_for('admin.orders') }}" class="btn btn-outline-secondary w-100 rounded-pill">
+            ← Quay lại danh sách đơn
+        </a>
+    </div>
+</div>
+{% endblock %}

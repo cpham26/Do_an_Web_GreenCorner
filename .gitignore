@@ -1,0 +1,39 @@
+# =========================================================================
+# Python & Environment ignores
+# =========================================================================
+.venv/
+venv/
+ENV/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+/build/
+/dist/
+*.egg-info/
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Temporary scratch & large archives
+GreenCornerPython/scratch/
+scratch/
+*.zip
+*.rar
+*.7z
+*.tmp
+*.log
+
+# Sensitive environment variables
+.env
+.env.local

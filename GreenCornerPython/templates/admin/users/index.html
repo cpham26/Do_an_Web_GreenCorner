@@ -1,0 +1,355 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Quản Lý Tài Khoản - Green Corner Admin{% endblock %}
+{% block page_title %}Quản lý tài khoản{% endblock %}
+
+{% block content %}
+<div class="admin-panel mb-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+        <div class="d-flex align-items-center gap-3">
+            <h4 class="mb-0 text-white fw-bold">Danh Sách Người Dùng</h4>
+            <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 px-3 py-2 rounded-pill">
+                {{ users | length }} thành viên
+            </span>
+        </div>
+        <button type="button" class="btn btn-green rounded-pill d-flex align-items-center gap-2 px-4 py-2 shadow-sm text-white fw-bold" 
+                style="background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important; color: #ffffff !important; border: 1px solid #34d399 !important; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4) !important;"
+                data-bs-toggle="modal" data-bs-target="#createUserModal">
+            <span aria-hidden="true" class="fw-bold fs-5 leading-none">+</span>
+            <span>Thêm tài khoản mới</span>
+        </button>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Họ và tên</th>
+                    <th>Email</th>
+                    <th>Số điện thoại</th>
+                    <th>Địa chỉ</th>
+                    <th>Vai trò</th>
+                    <th>Ngày tham gia</th>
+                    <th class="text-end">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in users %}
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="rounded-circle d-flex align-items-center justify-content-center fw-bold text-success" 
+                                  style="width: 38px; height: 38px; background: rgba(52, 211, 153, 0.15); border: 1px solid rgba(52, 211, 153, 0.3); font-size: 1rem;">
+                                {{ u.full_name[:1].upper() }}
+                            </span>
+                            <div>
+                                <strong class="d-block text-white">{{ u.full_name }}</strong>
+                                {% if current_admin and u.user_id == current_admin.user_id %}
+                                    <span class="badge bg-info bg-opacity-25 text-info border border-info border-opacity-50 px-2 py-0" style="font-size: 0.7rem;">Tài khoản của bạn</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-white-50">{{ u.email }}</td>
+                    <td class="text-white-50">{{ u.phone or '—' }}</td>
+                    <td class="text-white-50 text-truncate" style="max-width: 180px;" title="{{ u.address or '' }}">
+                        {{ u.address or '—' }}
+                    </td>
+                    <td>
+                        {% if u.role == 'Admin' %}
+                            <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50 px-2 py-1">
+                                Quản trị viên
+                            </span>
+                        {% else %}
+                            <span class="badge bg-secondary bg-opacity-50 text-light border border-secondary px-2 py-1">
+                                Khách hàng
+                            </span>
+                        {% endif %}
+                    </td>
+                    <td class="text-muted small">{{ u.created_at | datetime }}</td>
+                    <td class="text-end">
+                        <div class="d-inline-flex align-items-center gap-2">
+                            <!-- Nút Sửa -->
+                            <button type="button" class="btn btn-sm btn-outline-info rounded-pill px-3 d-flex align-items-center gap-1 btn-edit-user"
+                                    data-id="{{ u.user_id }}"
+                                    data-name="{{ u.full_name }}"
+                                    data-email="{{ u.email }}"
+                                    data-phone="{{ u.phone or '' }}"
+                                    data-address="{{ u.address or '' }}"
+                                    data-role="{{ u.role }}"
+                                    data-is-self="{{ 'true' if (current_admin and u.user_id == current_admin.user_id) else 'false' }}">
+                                <span>✏️</span>
+                                <span>Sửa</span>
+                            </button>
+
+                            <!-- Nút Xóa -->
+                            {% if current_admin and u.user_id == current_admin.user_id %}
+                                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3" disabled title="Không thể tự xóa tài khoản của chính mình">
+                                    <span>🗑️</span>
+                                    <span>Xóa</span>
+                                </button>
+                            {% else %}
+                                <button type="button" class="btn btn-sm btn-outline-danger rounded-pill px-3 d-flex align-items-center gap-1 btn-delete-user"
+                                        data-id="{{ u.user_id }}"
+                                        data-name="{{ u.full_name }}"
+                                        data-email="{{ u.email }}">
+                                    <span>🗑️</span>
+                                    <span>Xóa</span>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- CÁC HỘP THOẠI MODAL (ĐẶT NGOÀI ADMIN-PANEL) -->
+<!-- ========================================== -->
+
+<!-- 1. MODAL THÊM TÀI KHOẢN MỚI -->
+<div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel" aria-hidden="true" data-bs-backdrop="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content admin-modal-box">
+            <div class="modal-header border-bottom border-secondary border-opacity-25 pb-3">
+                <h5 class="modal-title fw-bold text-white d-flex align-items-center gap-2" id="createUserModalLabel">
+                    <span class="text-success">🌿</span>
+                    <span>Tạo Tài Khoản Người Dùng Mới</span>
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <form action="{{ url_for('admin.create_user') }}" method="post">
+                <div class="modal-body py-4">
+                    <div class="mb-3">
+                        <label class="form-label text-white-50 small fw-semibold">Họ và tên <span class="text-danger">*</span></label>
+                        <input type="text" name="full_name" class="form-control admin-input" placeholder="Ví dụ: Nguyễn Văn A" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white-50 small fw-semibold">Địa chỉ Email <span class="text-danger">*</span></label>
+                        <input type="email" name="email" class="form-control admin-input" placeholder="nguyenvana@gmail.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white-50 small fw-semibold">Mật khẩu khởi tạo <span class="text-danger">*</span></label>
+                        <input type="password" name="password" class="form-control admin-input" placeholder="Tối thiểu 6 ký tự" minlength="6" required>
+                    </div>
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="form-label text-white-50 small fw-semibold">Số điện thoại</label>
+                            <input type="tel" name="phone" class="form-control admin-input" placeholder="0987654321">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label text-white-50 small fw-semibold">Phân quyền</label>
+                            <select name="role" class="form-select admin-input">
+                                <option value="Customer" selected>Khách hàng (Customer)</option>
+                                <option value="Admin">Quản trị viên (Admin)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label text-white-50 small fw-semibold">Địa chỉ</label>
+                        <input type="text" name="address" class="form-control admin-input" placeholder="Số nhà, tên đường, phường/xã...">
+                    </div>
+                </div>
+                <div class="modal-footer border-top border-secondary border-opacity-25 pt-3">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Hủy bỏ</button>
+                    <button type="submit" class="btn btn-green rounded-pill px-4">Tạo tài khoản</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 2. MODAL SỬA TÀI KHOẢN (DYNAMIC REUSABLE) -->
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true" data-bs-backdrop="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content admin-modal-box">
+            <div class="modal-header border-bottom border-secondary border-opacity-25 pb-3">
+                <h5 class="modal-title fw-bold text-white d-flex align-items-center gap-2" id="editUserModalLabel">
+                    <span>✏️</span>
+                    <span>Sửa Thông Tin Tài Khoản</span>
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <form id="editUserForm" method="post" action="">
+                <div class="modal-body py-4">
+                    <div class="mb-3">
+                        <label class="form-label text-white-50 small fw-semibold">Họ và tên <span class="text-danger">*</span></label>
+                        <input type="text" id="edit_full_name" name="full_name" class="form-control admin-input" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white-50 small fw-semibold">Địa chỉ Email <span class="text-danger">*</span></label>
+                        <input type="email" id="edit_email" name="email" class="form-control admin-input" required>
+                    </div>
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="form-label text-white-50 small fw-semibold">Số điện thoại</label>
+                            <input type="tel" id="edit_phone" name="phone" class="form-control admin-input" placeholder="0987654321">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label text-white-50 small fw-semibold">Phân quyền</label>
+                            <select id="edit_role" name="role" class="form-select admin-input">
+                                <option value="Customer">Khách hàng (Customer)</option>
+                                <option value="Admin">Quản trị viên (Admin)</option>
+                            </select>
+                            <div id="self_role_warning" class="text-warning small mt-1 d-none" style="font-size: 0.75rem;">
+                                ⚠️ Bạn không thể tự hạ quyền của chính mình.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white-50 small fw-semibold">Địa chỉ giao hàng</label>
+                        <input type="text" id="edit_address" name="address" class="form-control admin-input" placeholder="Số nhà, tên đường, quận/huyện...">
+                    </div>
+                    <div class="mb-2 pt-2 border-top border-secondary border-opacity-25">
+                        <label class="form-label text-warning small fw-semibold">🔑 Đổi mật khẩu mới (Tùy chọn)</label>
+                        <input type="password" name="new_password" class="form-control admin-input" placeholder="Để trống nếu không muốn đổi mật khẩu" minlength="6">
+                        <div class="form-text text-muted small">Chỉ nhập khi muốn reset mật khẩu cho người dùng này (tối thiểu 6 ký tự).</div>
+                    </div>
+                </div>
+                <div class="modal-footer border-top border-secondary border-opacity-25 pt-3">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Hủy bỏ</button>
+                    <button type="submit" class="btn btn-green rounded-pill px-4">Lưu thay đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 3. MODAL XÁC NHẬN XÓA TÀI KHOẢN (DYNAMIC REUSABLE) -->
+<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true" data-bs-backdrop="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content admin-modal-box border-danger border-opacity-50">
+            <div class="modal-header border-bottom border-secondary border-opacity-25 pb-3">
+                <h5 class="modal-title fw-bold text-danger d-flex align-items-center gap-2" id="deleteUserModalLabel">
+                    <span>⚠️</span>
+                    <span>Xác Nhận Xóa Vĩnh Viễn</span>
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <form id="deleteUserForm" method="post" action="">
+                <div class="modal-body py-4">
+                    <p class="text-white mb-2">
+                        Bạn có chắc chắn muốn xóa vĩnh viễn tài khoản:
+                    </p>
+                    <div class="p-3 rounded-3 mb-3" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.25);">
+                        <strong class="d-block text-white fs-5" id="delete_user_name">Nguyễn Văn A</strong>
+                        <span class="text-white-50" id="delete_user_email">email@example.com</span>
+                    </div>
+                    <div class="text-success small d-flex align-items-start gap-2">
+                        <span class="fs-6">🛡️</span>
+                        <span>Toàn bộ lịch sử hóa đơn, đơn hàng của người dùng này sẽ được bảo lưu an toàn trong hệ thống cửa hàng.</span>
+                    </div>
+                </div>
+                <div class="modal-footer border-top border-secondary border-opacity-25 pt-3">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Hủy bỏ</button>
+                    <button type="submit" class="btn btn-danger rounded-pill px-4 fw-bold">Xóa vĩnh viễn</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.admin-modal-box {
+    background: #0d1a12 !important;
+    border: 1px solid rgba(52, 211, 153, 0.35) !important;
+    border-radius: 20px !important;
+    color: #f3f4f6 !important;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8) !important;
+}
+
+.admin-input {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #fff !important;
+    border-radius: 10px;
+    padding: 0.65rem 0.9rem;
+}
+.admin-input:focus {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: #34d399 !important;
+    box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.25) !important;
+    color: #fff !important;
+}
+.admin-input::placeholder {
+    color: rgba(255, 255, 255, 0.35) !important;
+}
+select.admin-input option {
+    background: #0d1a12;
+    color: #fff;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. CHUYỂN TOÀN BỘ MODAL RA BODY ĐỂ KHÔNG BỊ BACKDROP-FILTER CỦA ADMIN-PANEL TRAP
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(function(m) {
+        document.body.appendChild(m);
+    });
+
+    const editModalEl = document.getElementById('editUserModal');
+    const bsEditModal = new bootstrap.Modal(editModalEl);
+
+    const deleteModalEl = document.getElementById('deleteUserModal');
+    const bsDeleteModal = new bootstrap.Modal(deleteModalEl);
+
+    // 2. XỬ LÝ NÚT SỬA TÀI KHOẢN
+    document.querySelectorAll('.btn-edit-user').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const id = this.getAttribute('data-id');
+            const name = this.getAttribute('data-name');
+            const email = this.getAttribute('data-email');
+            const phone = this.getAttribute('data-phone');
+            const address = this.getAttribute('data-address');
+            const role = this.getAttribute('data-role');
+            const isSelf = this.getAttribute('data-is-self') === 'true';
+
+            document.getElementById('editUserForm').action = '/admin/users/' + id + '/edit';
+            document.getElementById('edit_full_name').value = name;
+            document.getElementById('edit_email').value = email;
+            document.getElementById('edit_phone').value = phone;
+            document.getElementById('edit_address').value = address;
+            
+            const roleSelect = document.getElementById('edit_role');
+            roleSelect.value = role;
+
+            const warning = document.getElementById('self_role_warning');
+            if (isSelf) {
+                roleSelect.setAttribute('disabled', 'disabled');
+                warning.classList.remove('d-none');
+            } else {
+                roleSelect.removeAttribute('disabled');
+                warning.classList.add('d-none');
+            }
+
+            bsEditModal.show();
+        });
+    });
+
+    // 3. XỬ LÝ NÚT XÓA TÀI KHOẢN
+    document.querySelectorAll('.btn-delete-user').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const id = this.getAttribute('data-id');
+            const name = this.getAttribute('data-name');
+            const email = this.getAttribute('data-email');
+
+            document.getElementById('deleteUserForm').action = '/admin/users/' + id + '/delete';
+            document.getElementById('delete_user_name').textContent = name;
+            document.getElementById('delete_user_email').textContent = email;
+
+            bsDeleteModal.show();
+        });
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Quản Lý Danh Mục - Green Corner Admin{% endblock %}
+{% block page_title %}Danh mục hệ thực vật{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <!-- Categories List -->
+    <div class="col-lg-7">
+        <div class="admin-panel">
+            <h5 class="fw-bold mb-3 text-white">Danh sách danh mục hiện có</h5>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Tên danh mục</th>
+                            <th>Mô tả</th>
+                            <th class="text-center">Số SP</th>
+                            <th class="text-end">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cat in categories %}
+                        <tr>
+                            <td class="fw-bold text-white">{{ cat.category_name }}</td>
+                            <td class="text-muted small">{{ cat.description }}</td>
+                            <td class="text-center">
+                                <span class="badge bg-light">{{ cat.products.count() }}</span>
+                            </td>
+                            <td class="text-end">
+                                <form action="{{ url_for('admin.delete_category', category_id=cat.category_id) }}" method="post" onsubmit="return confirm('Bạn có chắc muốn xóa danh mục này?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Xóa">✕</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Category Form -->
+    <div class="col-lg-5">
+        <div class="admin-panel">
+            <h5 class="fw-bold mb-3 text-white">+ Thêm danh mục mới</h5>
+            <form method="post" action="{{ url_for('admin.create_category') }}">
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold text-white">Tên danh mục <span class="text-danger">*</span></label>
+                    <input type="text" name="category_name" class="form-control" required placeholder="Ví dụ: Cây thủy sinh" />
+                </div>
+                <div class="mb-4">
+                    <label class="form-label small fw-semibold text-white">Mô tả danh mục</label>
+                    <textarea name="description" rows="3" class="form-control" placeholder="Mô tả đặc điểm của hệ thực vật này..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-green w-100 rounded-pill py-2">
+                    Thêm Danh Mục
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

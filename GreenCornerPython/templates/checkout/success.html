@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Đặt hàng thành công #{{ order.order_id }} - Green Corner{% endblock %}
+
+{% block content %}
+<section class="commerce-page checkout-success-page py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="cart-table-wrapper checkout-success-card text-center p-4 p-md-5">
+                    <div class="checkout-success-icon mb-3" aria-hidden="true">✓</div>
+                    <h1 class="h2">Đặt hàng thành công</h1>
+                    <p class="text-muted">
+                        Cảm ơn <strong>{{ order.receiver_name }}</strong>. Đơn hàng của bạn đã được tiếp nhận và đang được xử lý.
+                    </p>
+
+                    <dl class="row text-start border border-secondary border-opacity-25 rounded-3 p-3 my-4">
+                        <dt class="col-sm-5 text-muted">Mã đơn hàng</dt>
+                        <dd class="col-sm-7 fw-bold text-success">#GC-{{ order.order_id }}</dd>
+
+                        <dt class="col-sm-5 text-muted">Ngày đặt</dt>
+                        <dd class="col-sm-7">{{ order.created_at | datetime }}</dd>
+
+                        <dt class="col-sm-5 text-muted">Tổng thanh toán</dt>
+                        <dd class="col-sm-7 fw-bold text-success fs-5">{{ order.formatted_total }}</dd>
+
+                        <dt class="col-sm-5 text-muted">Phương thức</dt>
+                        <dd class="col-sm-7">
+                            {% if order.payment_method == 'VietQR' %}
+                                <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50">Chuyển khoản VietQR / App Ngân hàng</span>
+                            {% else %}
+                                <span>Thanh toán tiền mặt khi nhận hàng (COD)</span>
+                            {% endif %}
+                        </dd>
+
+                        <dt class="col-sm-5 text-muted">Trạng thái</dt>
+                        <dd class="col-sm-7 mb-0">
+                            <span class="badge bg-warning text-dark">{{ order.status }}</span>
+                        </dd>
+                    </dl>
+
+                    {% if order.payment_method == 'VietQR' and order.status == 'Chờ xác nhận' %}
+                    <div class="vietqr-success-card p-4 rounded-3 border border-success border-opacity-50 mb-4 text-center bg-dark bg-opacity-50">
+                        <h3 class="h5 text-success mb-2">Quét mã VietQR để hoàn tất thanh toán</h3>
+                        <p class="small text-muted mb-3">Mở ứng dụng ngân hàng bất kỳ để quét mã chuyển khoản nhanh 24/7</p>
+
+                        <div class="p-3 bg-white rounded-3 d-inline-block shadow my-2">
+                            <img src="{{ vietqr_url }}"
+                                 alt="Mã VietQR Đơn hàng #{{ order.order_id }}"
+                                 width="220"
+                                 height="220"
+                                 class="img-fluid" />
+                        </div>
+
+                        <div class="row g-2 text-start mt-3 small mx-auto" style="max-width: 420px;">
+                            <div class="col-5 text-muted">Ngân hàng:</div>
+                            <div class="col-7 fw-bold text-white">MB Bank (Quân Đội)</div>
+
+                            <div class="col-5 text-muted">Số tài khoản:</div>
+                            <div class="col-7 fw-bold text-success fs-6">8888 6868 9999</div>
+
+                            <div class="col-5 text-muted">Chủ tài khoản:</div>
+                            <div class="col-7 fw-bold text-white">GREEN CORNER</div>
+
+                            <div class="col-5 text-muted">Số tiền:</div>
+                            <div class="col-7 fw-bold text-warning fs-6">{{ order.formatted_total }}</div>
+
+                            <div class="col-5 text-muted">Nội dung CK:</div>
+                            <div class="col-7 fw-bold text-warning">GC {{ order.order_id }}</div>
+                        </div>
+
+                        <p class="small text-white-50 mt-3 mb-0">
+                            ⚡ Hệ thống sẽ tự động cập nhật đơn hàng ngay khi nhận được biến động số dư.
+                        </p>
+                    </div>
+                    {% endif %}
+
+                    <div class="d-flex flex-wrap justify-content-center gap-2">
+                        <a href="{{ url_for('orders.detail', order_id=order.order_id) }}" class="btn btn-green">
+                            Xem chi tiết đơn hàng
+                        </a>
+                        <a href="{{ url_for('products.index') }}" class="btn btn-outline-green">
+                            Tiếp tục mua sắm
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

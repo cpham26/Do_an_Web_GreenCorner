@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.product_name }} - Green Corner{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <!-- Breadcrumb -->
+        <nav aria-label="Đường dẫn" class="product-breadcrumb mb-4">
+            <a href="{{ url_for('main.index') }}">Trang chủ</a>
+            <span aria-hidden="true">/</span>
+            <a href="{{ url_for('products.index') }}">Sản phẩm</a>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">{{ product.product_name }}</span>
+        </nav>
+
+        <div class="row g-5 align-items-start">
+            <!-- Left: Product Image -->
+            <div class="col-lg-6">
+                <div class="detail-image-sticky-wrap">
+                    <div class="detail-image">
+                        <img src="{{ product.image_url }}" alt="{{ product.product_name }}" class="detail-photo" loading="eager" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Details, Specs & Cart actions -->
+            <div class="col-lg-6">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="detail-category">{{ product.category.category_name }}</span>
+                    <div class="product-rating" aria-label="Đánh giá 4.9 sao">
+                        <span class="rating-stars">★★★★★</span>
+                        <span class="rating-num">4.9</span>
+                        <span class="rating-cnt">(186 đánh giá)</span>
+                    </div>
+                </div>
+
+                <h1 class="detail-title mb-3">
+                    {{ product.product_name }}
+                </h1>
+
+                <div class="d-flex align-items-baseline gap-3 my-3">
+                    <div class="detail-price">
+                        {{ product.formatted_price }}
+                    </div>
+                    <span class="detail-price-sub">Đã bao gồm VAT &amp; Dưỡng rễ vi sinh</span>
+                </div>
+
+                {% if product.quantity > 0 %}
+                    <div class="detail-stock-badge in-stock mb-3">
+                        <span class="status-dot">●</span> Còn <strong>{{ product.quantity }}</strong> chậu tại vườn (Sẵn sàng giao 2H)
+                    </div>
+                {% else %}
+                    <div class="detail-stock-badge out-of-stock mb-3">
+                        <span class="status-dot">●</span> Tạm hết hàng tại vườn
+                    </div>
+                {% endif %}
+
+                <!-- Care specs grid -->
+                <div class="plant-specs-grid my-4">
+                    <div class="spec-card">
+                        <span class="spec-icon" aria-hidden="true">☀️</span>
+                        <div>
+                            <small>Ánh sáng</small>
+                            <strong>{{ spec_light }}</strong>
+                        </div>
+                    </div>
+                    <div class="spec-card">
+                        <span class="spec-icon" aria-hidden="true">💧</span>
+                        <div>
+                            <small>Tưới nước</small>
+                            <strong>{{ spec_water }}</strong>
+                        </div>
+                    </div>
+                    <div class="spec-card">
+                        <span class="spec-icon" aria-hidden="true">🪴</span>
+                        <div>
+                            <small>Kích thước</small>
+                            <strong>{{ spec_size }}</strong>
+                        </div>
+                    </div>
+                    <div class="spec-card">
+                        <span class="spec-icon" aria-hidden="true">🌡️</span>
+                        <div>
+                            <small>Độ ẩm tối ưu</small>
+                            <strong>{{ spec_humidity }}</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-description-block my-4">
+                    <h2 class="h6 text-uppercase fw-bold text-success mb-2">Đặc tính sinh thái &amp; Vị trí đặt</h2>
+                    <p class="detail-description mb-0">
+                        {{ product.description }}
+                    </p>
+                </div>
+
+                <div class="commerce-actions mt-4">
+                    {% if product.quantity > 0 %}
+                    <form action="{{ url_for('cart.add', product_id=product.product_id) }}" method="post" class="d-flex flex-wrap align-items-center gap-3">
+                        <div class="quantity-input-group">
+                            <input name="quantity" type="number" value="1" min="1" max="{{ product.quantity }}" class="detail-quantity form-control" style="width: 80px;" />
+                        </div>
+
+                        <button type="submit" class="btn btn-green btn-lg flex-grow-1">
+                            🛒 Thêm vào giỏ
+                        </button>
+
+                        <button type="submit" name="buy_now" value="1" class="btn btn-buy-now btn-lg flex-grow-1">
+                            ⚡ Mua Ngay
+                        </button>
+                    </form>
+                    {% else %}
+                    <button class="btn btn-secondary btn-lg w-100" disabled>
+                        Sản phẩm tạm hết hàng
+                    </button>
+                    {% endif %}
+
+                    <div class="mt-3">
+                        <a href="{{ url_for('products.index') }}" class="btn btn-outline-secondary btn-sm">
+                            ← Khám phá thêm sản phẩm khác
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 4 Trust Badges -->
+                <div class="product-trust-badges mt-4">
+                    <div class="trust-badge-row">
+                        <span>🌿 <strong>Cây khỏe 100%:</strong> Tuyển chọn rễ khỏe, cành lá căng tràn sinh khí.</span>
+                    </div>
+                    <div class="trust-badge-row">
+                        <span>🔄 <strong>Bảo hành 30 ngày:</strong> 1 đổi 1 nếu cây suy yếu do lỗi vườn ươm.</span>
+                    </div>
+                    <div class="trust-badge-row">
+                        <span>🚚 <strong>Giao hàng 2H:</strong> Đóng lồng bảo vệ chống gãy lá, giữ nguyên bầu đất.</span>
+                    </div>
+                    <div class="trust-badge-row">
+                        <span>📞 <strong>Bác sĩ cây cảnh:</strong> Hỗ trợ tư vấn chăm sóc trọn đời qua Hotline.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related products -->
+        {% if related_products %}
+        <div class="related-products-section mt-5 pt-4">
+            <h3 class="h4 mb-4">Cùng bộ sưu tập {{ product.category.category_name }}</h3>
+            <div class="row g-4">
+                {% for rel in related_products %}
+                <div class="col-6 col-md-3">
+                    <article class="product-card h-100">
+                        <a href="{{ url_for('products.detail', product_id=rel.product_id) }}" class="product-image-link">
+                            <div class="product-image">
+                                <img src="{{ rel.image_url }}" alt="{{ rel.product_name }}" class="product-photo" loading="lazy" />
+                            </div>
+                        </a>
+                        <div class="product-info">
+                            <h4 class="h6 mb-1">
+                                <a href="{{ url_for('products.detail', product_id=rel.product_id) }}" class="product-name-link">
+                                    {{ rel.product_name }}
+                                </a>
+                            </h4>
+                            <div class="price-stack">
+                                <span class="price">{{ rel.formatted_price }}</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

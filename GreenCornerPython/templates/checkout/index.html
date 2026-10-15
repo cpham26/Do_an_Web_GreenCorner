@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+
+{% block title %}Thanh toán - Green Corner{% endblock %}
+
+{% block content %}
+<section class="commerce-page checkout-page py-5">
+    <div class="container">
+        <div class="section-heading text-center mb-5">
+            <p>GREEN CORNER</p>
+            <h1 class="h2">Thông tin đặt hàng</h1>
+        </div>
+
+        <form action="{{ url_for('checkout.index') }}" method="post" id="checkout-form">
+            <div class="row g-4">
+                <!-- Delivery Info & Payment -->
+                <div class="col-lg-7">
+                    <div class="cart-table-wrapper checkout-card h-100">
+                        <h2 class="h4 mb-4">Thông tin giao hàng</h2>
+
+                        <div class="mb-3">
+                            <label class="form-label text-white fw-semibold">Họ và tên người nhận <span class="text-danger">*</span></label>
+                            <input type="text" name="receiver_name" class="form-control" required placeholder="Nguyễn Văn A" value="{{ current_user.full_name if current_user else '' }}" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-white fw-semibold">Số điện thoại liên hệ <span class="text-danger">*</span></label>
+                            <input type="tel" name="phone" class="form-control" required placeholder="09xxxxxxxx" value="{{ current_user.phone if current_user else '' }}" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-white fw-semibold">Địa chỉ nhận cây chi tiết <span class="text-danger">*</span></label>
+                            <textarea name="address" class="form-control" rows="3" required placeholder="Số nhà, ngõ/ngách, tên đường, phường/xã, quận/huyện, tỉnh/thành">{{ current_user.address if current_user else '' }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-white fw-semibold">Hình thức giao hàng</label>
+                            <div class="shipping-option-grid">
+                                <label class="shipping-option-card active" id="ship-standard-label">
+                                    <input type="radio" name="shipping_speed" value="Tiêu chuẩn" id="ship-standard" checked />
+                                    <div class="shipping-option-content">
+                                        <div class="d-flex justify-content-between">
+                                            <strong>🚚 Giao tiêu chuẩn (2-4 ngày)</strong>
+                                            <span class="text-success fw-bold">
+                                                {% if base_shipping == 0 %}MIỄN PHÍ{% else %}{{ base_shipping | currency }}{% endif %}
+                                            </span>
+                                        </div>
+                                        <small class="text-muted">Đóng thùng carton định hình chống va đập</small>
+                                    </div>
+                                </label>
+                                <label class="shipping-option-card" id="ship-express-label">
+                                    <input type="radio" name="shipping_speed" value="Hỏa tốc" id="ship-express" />
+                                    <div class="shipping-option-content">
+                                        <div class="d-flex justify-content-between">
+                                            <strong>⚡ Giao hỏa tốc 2H (Nội thành)</strong>
+                                            <span class="text-white">+35.000 ₫</span>
+                                        </div>
+                                        <small class="text-muted">Giao bằng xe máy chuyên dụng kèm lồng bảo vệ cây</small>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label text-white fw-semibold">Ghi chú đơn hàng (Tùy chọn)</label>
+                            <textarea name="order_notes" class="form-control" rows="2" placeholder="Ví dụ: Giao giờ hành chính, gọi trước khi đến 15 phút, hướng dẫn vị trí đặt cây..."></textarea>
+                        </div>
+
+                        <hr class="my-4 border-secondary border-opacity-25" />
+
+                        <h2 class="h5 text-white mb-3">Phương thức thanh toán</h2>
+                        <div class="payment-methods-stack mb-3">
+                            <!-- VIETQR OPTION -->
+                            <label class="payment-method-card active" id="payment-vietqr-card">
+                                <input type="radio" name="payment_method" value="VietQR" checked />
+                                <div class="payment-card-body">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="payment-badge vietqr">VietQR</span>
+                                            <strong class="text-white">Chuyển khoản VietQR / App Ngân hàng</strong>
+                                        </div>
+                                        <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50">TỰ ĐỘNG 24/7</span>
+                                    </div>
+                                    <p class="small text-muted mb-0 mt-1">Quét mã QR chuyển khoản tức thì qua hơn 40 ứng dụng ngân hàng và ví điện tử.</p>
+
+                                    <!-- VietQR preview box -->
+                                    <div class="vietqr-details-box mt-3 p-3 rounded-3" id="vietqr-info-box">
+                                        <div class="row align-items-center g-3">
+                                            <div class="col-sm-5 text-center">
+                                                <div class="qr-mockup p-2 bg-white rounded-2 d-inline-block shadow-sm">
+                                                    <img id="vietqr-preview-img"
+                                                         src="https://img.vietqr.io/image/MB-888868689999-compact2.png?amount={{ initial_total | int }}&addInfo=GREEN%20CORNER&accountName=CONG%20TY%20GREEN%20CORNER"
+                                                         alt="Mã VietQR Thanh Toán"
+                                                         width="130"
+                                                         height="130"
+                                                         class="img-fluid" />
+                                                </div>
+                                                <div class="small text-white-50 mt-1">Quét mã bằng App Ngân Hàng</div>
+                                            </div>
+                                            <div class="col-sm-7 small">
+                                                <div class="mb-1 text-muted">Ngân hàng: <strong class="text-white">MB Bank (Quân Đội)</strong></div>
+                                                <div class="mb-1 text-muted">Số tài khoản: <strong class="text-success fs-6">8888 6868 9999</strong></div>
+                                                <div class="mb-1 text-muted">Chủ tài khoản: <strong class="text-white">GREEN CORNER</strong></div>
+                                                <div class="mb-0 text-muted">Cú pháp: <strong class="text-warning">GC {mã_đơn}</strong></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <!-- COD OPTION -->
+                            <label class="payment-method-card" id="payment-cod-card">
+                                <input type="radio" name="payment_method" value="COD" />
+                                <div class="payment-card-body">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="payment-badge">COD</span>
+                                        <strong class="text-white">Thanh toán tiền mặt khi nhận cây</strong>
+                                    </div>
+                                    <p class="small text-muted mb-0 mt-1">Kiểm tra cây tươi tốt, bầu đất nguyên vẹn trước khi thanh toán cho shipper.</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order summary -->
+                <div class="col-lg-5">
+                    <div class="cart-summary checkout-summary p-4">
+                        <h2 class="h5 text-white mb-3">Tóm tắt đơn hàng</h2>
+
+                        <div class="checkout-items-list mb-3">
+                            {% for item in items %}
+                            <div class="d-flex justify-content-between gap-3 py-2 border-bottom border-secondary border-opacity-25">
+                                <div>
+                                    <strong class="text-white">{{ item.product.product_name }}</strong>
+                                    <div class="small text-muted">
+                                        {{ item.quantity }} × {{ item.product.formatted_price }}
+                                    </div>
+                                </div>
+                                <strong class="text-nowrap text-success">
+                                    {{ item.formatted_line_total }}
+                                </strong>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="d-flex justify-content-between py-2 text-muted">
+                            <span>Tạm tính tiền cây:</span>
+                            <span class="text-white fw-semibold">{{ subtotal | currency }}</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between py-2 text-muted">
+                            <span>Phí vận chuyển:</span>
+                            <span class="text-success fw-bold" id="display-shipping-fee">
+                                {% if initial_shipping_fee == 0 %}MIỄN PHÍ{% else %}{{ initial_shipping_fee | currency }}{% endif %}
+                            </span>
+                        </div>
+
+                        <hr class="border-secondary border-opacity-25 my-3" />
+
+                        <div class="d-flex justify-content-between align-items-baseline mb-4">
+                            <span class="fw-bold text-white fs-5">Tổng thanh toán:</span>
+                            <strong class="cart-summary-total text-success" id="display-total-amount">
+                                {{ initial_total | currency }}
+                            </strong>
+                        </div>
+
+                        <button type="submit" class="btn btn-green w-100 py-3 fw-bold fs-6">
+                            Xác nhận đặt hàng →
+                        </button>
+
+                        <div class="text-center mt-3 small text-muted">
+                            🌿 Đóng gói cây cảnh chuyên dụng &amp; bảo hiểm 100%
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const subtotal = {{ subtotal | int }};
+        const baseShipping = {{ base_shipping | int }};
+        const expressShipping = {{ express_shipping | int }};
+
+        const shipStandard = document.getElementById("ship-standard");
+        const shipExpress = document.getElementById("ship-express");
+        const shipStandardLabel = document.getElementById("ship-standard-label");
+        const shipExpressLabel = document.getElementById("ship-express-label");
+
+        const displayShippingFee = document.getElementById("display-shipping-fee");
+        const displayTotalAmount = document.getElementById("display-total-amount");
+        const vietqrImg = document.getElementById("vietqr-preview-img");
+
+        const vietqrCard = document.getElementById("payment-vietqr-card");
+        const codCard = document.getElementById("payment-cod-card");
+        const vietqrBox = document.getElementById("vietqr-info-box");
+
+        function updateTotals() {
+            const isExpress = shipExpress && shipExpress.checked;
+            const fee = isExpress ? expressShipping : baseShipping;
+            const grandTotal = subtotal + fee;
+
+            if (shipStandardLabel && shipExpressLabel) {
+                shipStandardLabel.classList.toggle("active", !isExpress);
+                shipExpressLabel.classList.toggle("active", isExpress);
+            }
+
+            if (displayShippingFee) {
+                displayShippingFee.innerText = fee === 0 ? "MIỄN PHÍ" : fee.toLocaleString("vi-VN") + " ₫";
+            }
+            if (displayTotalAmount) {
+                displayTotalAmount.innerText = grandTotal.toLocaleString("vi-VN") + " ₫";
+            }
+            if (vietqrImg) {
+                vietqrImg.src = `https://img.vietqr.io/image/MB-888868689999-compact2.png?amount=${grandTotal}&addInfo=GREEN%20CORNER&accountName=CONG%20TY%20GREEN%20CORNER`;
+            }
+        }
+
+        if (shipStandard && shipExpress) {
+            shipStandard.addEventListener("change", updateTotals);
+            shipExpress.addEventListener("change", updateTotals);
+        }
+
+        // Payment selection toggle
+        const paymentRadios = document.querySelectorAll('input[name="payment_method"]');
+        paymentRadios.forEach(radio => {
+            radio.addEventListener("change", function () {
+                const isVietQR = this.value === "VietQR";
+                if (vietqrCard) vietqrCard.classList.toggle("active", isVietQR);
+                if (codCard) codCard.classList.toggle("active", !isVietQR);
+                if (vietqrBox) vietqrBox.style.display = isVietQR ? "block" : "none";
+            });
+        });
+    });
+</script>
+{% endblock %}

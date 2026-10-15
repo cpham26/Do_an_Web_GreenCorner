@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Hồ Sơ Cá Nhân - Green Corner{% endblock %}
+
+{% block content %}
+<section class="commerce-page py-5">
+    <div class="container" style="max-width: 650px;">
+        <div class="cart-table-wrapper checkout-card p-4 p-md-5">
+            <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+                <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center fw-bold fs-3" style="width: 64px; height: 64px;">
+                    {{ user.full_name[:1].upper() }}
+                </div>
+                <div>
+                    <h4 class="fw-bold text-white mb-0">{{ user.full_name }}</h4>
+                    <small class="text-muted">{{ user.email }} • <span class="badge bg-secondary">{{ user.role }}</span></small>
+                </div>
+            </div>
+
+            <form method="post" action="{{ url_for('auth.profile') }}">
+                <div class="mb-3">
+                    <label class="form-label text-white small fw-semibold">Họ và tên</label>
+                    <input type="text" name="full_name" class="form-control" required value="{{ user.full_name }}" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label text-white small fw-semibold">Địa chỉ Email</label>
+                    <input type="email" class="form-control bg-dark text-white-50 border-secondary" disabled value="{{ user.email }}" />
+                    <small class="text-muted">Email dùng làm định danh tài khoản và không thể thay đổi.</small>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label text-white small fw-semibold">Số điện thoại</label>
+                    <input type="tel" name="phone" class="form-control" value="{{ user.phone or '' }}" placeholder="09xxxxxxxx" />
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label text-white small fw-semibold">Địa chỉ nhận hàng mặc định</label>
+                    <input type="text" name="address" class="form-control" value="{{ user.address or '' }}" placeholder="Số nhà, đường, quận/huyện, tỉnh/thành" />
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center pt-2">
+                    <a href="{{ url_for('auth.change_password') }}" class="btn btn-outline-secondary rounded-pill px-4">
+                        Đổi mật khẩu
+                    </a>
+                    <button type="submit" class="btn btn-green rounded-pill px-4">
+                        Lưu Thay Đổi
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

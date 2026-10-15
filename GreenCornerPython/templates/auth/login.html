@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Đăng nhập - Green Corner{% endblock %}
+
+{% block content %}
+<section class="auth-section py-5">
+    <div class="container">
+        <div class="auth-shell">
+            <aside class="auth-aside">
+                <div>
+                    <a href="{{ url_for('main.index') }}" class="auth-brand">
+                        🌿 Green Corner
+                    </a>
+
+                    <p class="auth-kicker">CHÀO MỪNG BẠN TRỞ LẠI</p>
+                    <h1>Tiếp tục hành trình vun trồng góc xanh.</h1>
+                    <p>
+                        Đăng nhập để trải nghiệm Green Corner thuận tiện hơn, theo dõi hành trình cây và nhận những ưu đãi riêng cho bạn.
+                    </p>
+                </div>
+
+                <ul class="auth-benefits" aria-label="Lợi ích tài khoản">
+                    <li><span aria-hidden="true">✓</span> Theo dõi tiến trình vận chuyển hỏa tốc</li>
+                    <li><span aria-hidden="true">✓</span> Bảo hành 1 đổi 1 và bác sĩ cây cảnh 24/7</li>
+                    <li><span aria-hidden="true">✓</span> Tích lũy ưu đãi thành viên Green Member</li>
+                </ul>
+            </aside>
+
+            <div class="auth-panel">
+                <div class="auth-panel-heading">
+                    <p>TÀI KHOẢN</p>
+                    <h2>Đăng nhập</h2>
+                    <span>Nhập thông tin của bạn để tiếp tục.</span>
+                </div>
+
+                <form action="{{ url_for('auth.login') }}" method="post" class="auth-form">
+                    {% if return_url %}
+                        <input type="hidden" name="return_url" value="{{ return_url }}" />
+                    {% endif %}
+                    <div class="form-field mb-3">
+                        <label class="form-label text-white small fw-semibold">Địa chỉ Email</label>
+                        <input type="email" name="email" class="form-control" required placeholder="name@example.com" value="{{ email or '' }}" />
+                    </div>
+
+                    <div class="form-field mb-4">
+                        <label class="form-label text-white small fw-semibold">Mật khẩu</label>
+                        <input type="password" name="password" class="form-control" required placeholder="Nhập mật khẩu của bạn" />
+                    </div>
+
+                    <button type="submit" class="btn btn-green w-100 py-3 fw-bold">
+                        Đăng nhập ngay
+                    </button>
+
+                    <div class="auth-footer mt-4 text-center">
+                        <p class="text-muted small mb-0">
+                            Chưa có tài khoản?
+                            <a href="{{ url_for('auth.register') }}" class="text-success fw-bold">
+                                Đăng ký tài khoản mới
+                            </a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

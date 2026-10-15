@@ -1,0 +1,677 @@
+{% extends "base.html" %}
+
+{% block title %}Green Corner - Cây Cảnh & Không Gian Xanh Cao Cấp{% endblock %}
+{% block body_class %}astra-experience{% endblock %}
+
+{% block content %}
+<!-- HUD NAVIGATOR -->
+<aside class="stage-hud" aria-label="Bảng điều hướng không gian xanh">
+    <div class="stage-hud-deck liquid-glass-card">
+        <span class="stage-hud-tag">MỤC</span>
+        <nav class="stage-hud-nav">
+            <button type="button" class="stage-hud-btn active" data-stage-target="stage-01" aria-label="Mục 01: Khởi đầu">
+                <span class="hud-dot"></span>
+                <span class="hud-tooltip">Khởi Đầu</span>
+            </button>
+            <button type="button" class="stage-hud-btn" data-stage-target="stage-spaces" aria-label="Mục 02: Không gian sống">
+                <span class="hud-dot"></span>
+                <span class="hud-tooltip">Không Gian Sống</span>
+            </button>
+            <button type="button" class="stage-hud-btn" data-stage-target="stage-02" aria-label="Mục 03: Danh mục cây">
+                <span class="hud-dot"></span>
+                <span class="hud-tooltip">Danh Mục Cây</span>
+            </button>
+            <button type="button" class="stage-hud-btn" data-stage-target="stage-03" aria-label="Mục 04: Tuyển chọn">
+                <span class="hud-dot"></span>
+                <span class="hud-tooltip">Bộ Sưu Tập</span>
+            </button>
+            <button type="button" class="stage-hud-btn" data-stage-target="stage-04" aria-label="Mục 05: Tiêu chuẩn">
+                <span class="hud-dot"></span>
+                <span class="hud-tooltip">Tiêu Chuẩn</span>
+            </button>
+        </nav>
+        <span class="stage-hud-counter" id="stage-active-counter">01/05</span>
+    </div>
+</aside>
+
+<!-- =========================================================================
+     STAGE 01: HERO SCENE
+     ========================================================================= -->
+<section id="stage-01" class="astra-hero-scene stage-scene cinematic-scene" data-stage-index="1">
+    <div class="astra-hero-ambient-glow" aria-hidden="true"></div>
+
+    <div class="astra-hero-container">
+        <div class="text-center">
+            <div class="astra-badge-pill">
+                <span class="astra-badge-dot" aria-hidden="true"></span>
+                <span>GREEN CORNER • BỘ SƯU TẬP SINH THÁI ĐỘC BẢN 2026</span>
+            </div>
+        </div>
+
+        <!-- Split Headline with Center Tree -->
+        <div class="astra-split-headline">
+            <h1 class="astra-title-word astra-title-left">GREEN</h1>
+            <div class="astra-hero-tree-container">
+                <div class="astra-tree-aura" aria-hidden="true"></div>
+                <div class="astra-tree-pedestal-ring" aria-hidden="true"></div>
+                <img src="{{ url_for('static', filename='images/hero-tree.jpg') }}" 
+                     alt="Green Corner - Cây cảnh sinh thái biểu tượng" 
+                     class="astra-hero-tree-img" 
+                     loading="eager" />
+                <canvas id="astra-tree-ambient-canvas" class="astra-tree-ambient-canvas" aria-hidden="true"></canvas>
+            </div>
+            <div class="astra-title-word astra-title-right">CORNER</div>
+        </div>
+
+        <div class="astra-hero-subcopy">
+            <p class="astra-hero-lead">
+                Khám phá không gian thực vật học tương lai — Từng mầm cây, tán lá được thuần dưỡng công phu, kiến tạo vi khí hậu thanh khiết và nâng tầm không gian sống của bạn.
+            </p>
+
+            <div class="astra-cta-group">
+                <a href="{{ url_for('products.index') }}" class="astra-btn-pill primary">
+                    <span>Khám Phá Toàn Bộ Cây Xanh</span>
+                    <span aria-hidden="true">→</span>
+                </a>
+                <a href="#stage-spaces" class="astra-btn-pill ghost" data-stage-scroll-next="stage-spaces">
+                    <span>Xem Không Gian Mẫu</span>
+                    <span aria-hidden="true">↓</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Quick Metrics Strip -->
+        <div class="astra-hero-metrics-strip">
+            <div class="astra-quick-stat-box">
+                <div class="astra-quick-stat-number">98.6%</div>
+                <div class="astra-quick-stat-label">Chỉ số lọc khí tự nhiên</div>
+            </div>
+            <div class="astra-quick-stat-box">
+                <div class="astra-quick-stat-number">55 - 65%</div>
+                <div class="astra-quick-stat-label">Cân bằng ẩm vi khí hậu</div>
+            </div>
+            <div class="astra-quick-stat-box">
+                <div class="astra-quick-stat-number">360°</div>
+                <div class="astra-quick-stat-label">Bảo vệ chân không khi giao</div>
+            </div>
+            <div class="astra-quick-stat-box">
+                <div class="astra-quick-stat-number">4.9★</div>
+                <div class="astra-quick-stat-label">Hơn 2,500+ góc xanh kiến tạo</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================================
+     STAGE SPACES: SIMULATOR & TABS
+     ========================================================================= -->
+<section id="stage-spaces" class="astra-spaces-section stage-scene cinematic-scene py-5" data-stage-index="2">
+    <div class="container">
+        <div class="astra-section-header text-center mb-4">
+            <div class="astra-badge-pill">
+                <span class="astra-badge-dot" aria-hidden="true"></span>
+                <span>Trải Nghiệm Không Gian Thực Vật</span>
+            </div>
+            <h2 class="astra-section-title">Khám Phá Không Gian Thực Vật</h2>
+            <p class="astra-section-lead">
+                Mỗi không gian sống cần một ngôn ngữ thực vật riêng để tối ưu hóa ánh sáng, dòng đối lưu không khí và cảm xúc an nhiên của gia chủ.
+            </p>
+        </div>
+
+        <!-- Bộ chuyển đổi dạng viên nang nổi (Capsule Pill Tabs) -->
+        <div class="astra-tab-pill-bar" role="tablist" aria-label="Bộ chọn không gian trưng bày">
+            <button type="button" class="astra-tab-pill active" data-space-index="0" role="tab" aria-selected="true">
+                🌿 Toàn Cảnh
+            </button>
+            <button type="button" class="astra-tab-pill" data-space-index="1" role="tab" aria-selected="false">
+                🛋️ Phòng Khách Thượng Lưu
+            </button>
+            <button type="button" class="astra-tab-pill" data-space-index="2" role="tab" aria-selected="false">
+                💻 Bàn Làm Việc Focus
+            </button>
+            <button type="button" class="astra-tab-pill" data-space-index="3" role="tab" aria-selected="false">
+                🍵 Phòng Thiền &amp; Thư Giãn
+            </button>
+        </div>
+
+        <!-- Cửa sổ trưng bày tương tác kính lỏng tối (Simulated Botanical Window) -->
+        <div class="astra-showcase-window">
+            <div class="astra-window-header">
+                <div class="astra-window-dots" aria-hidden="true">
+                    <span class="astra-window-dot dot-red"></span>
+                    <span class="astra-window-dot dot-yellow"></span>
+                    <span class="astra-window-dot dot-green"></span>
+                </div>
+                <div class="astra-window-title">
+                    GREEN CORNER • KHÔNG GIAN THỰC VẬT NỘI THẤT
+                </div>
+                <div class="astra-window-controls">
+                    <span class="astra-window-counter" id="astra-window-counter">01 / 04</span>
+                    <button type="button" class="astra-window-btn" id="astra-prev-slide" aria-label="Không gian trước">‹</button>
+                    <button type="button" class="astra-window-btn" id="astra-next-slide" aria-label="Không gian kế tiếp">›</button>
+                </div>
+            </div>
+
+            <div class="astra-window-body">
+                <!-- Slide 0: Toàn cảnh -->
+                <div class="astra-showcase-slide active">
+                    <div class="astra-slide-grid">
+                        <div class="astra-slide-visual">
+                            <img src="{{ url_for('static', filename='images/products/monstera.jpg') }}" alt="Trầu bà thanh xuân trong phòng khách" class="astra-slide-img" />
+                            <span class="astra-slide-overlay-tag">Biểu tượng sinh thái</span>
+                        </div>
+                        <div class="astra-slide-content">
+                            <h3 class="astra-slide-space-name">Kiến Tạo Hệ Sinh Thái Trong Nhà</h3>
+                            <p class="astra-slide-space-desc">
+                                Kết hợp các loài cây tán rộng như Monstera và Bàng Singapore với cây thanh lọc không khí để tạo nên một khu vườn thu nhỏ, cân bằng độ ẩm và đem lại cảm hứng sống mỗi ngày.
+                            </p>
+                            <div class="astra-slide-spec-list">
+                                <div class="astra-spec-item">
+                                    <div class="astra-spec-label">Khả năng thích ứng</div>
+                                    <div class="astra-spec-val">Ánh sáng tự nhiên &amp; đèn LED</div>
+                                </div>
+                                <div class="astra-spec-item">
+                                    <div class="astra-spec-label">Chu kỳ chăm sóc</div>
+                                    <div class="astra-spec-val">1 lần / tuần (Tưới đẫm)</div>
+                                </div>
+                                <div class="astra-spec-item">
+                                    <div class="astra-spec-label">Chỉ số lọc bụi PM2.5</div>
+                                    <div class="astra-spec-val">Đạt 98.6% hiệu suất</div>
+                                </div>
+                                <div class="astra-spec-item">
+                                    <div class="astra-spec-label">Nhiệt độ tối ưu</div>
+                                    <div class="astra-spec-val">20°C - 28°C (Điều hòa)</div>
+                                </div>
+                            </div>
+                            <div>
+                                <a href="{{ url_for('products.index') }}" class="astra-btn-pill primary">
+                                    <span>Khám Phá Cây Thích Hợp</span>
+                                    <span aria-hidden="true">→</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 1: Phòng khách thượng lưu -->
+                <div class="astra-showcase-slide" hidden>
+                    <div class="astra-slide-grid">
+                        <div class="astra-slide-visual">
+                            <img src="{{ url_for('static', filename='images/products/fiddle-leaf-fig.jpg') }}" alt="Phòng khách thượng lưu với cây cảnh phong thủy" class="astra-slide-img" />
+                            <span class="astra-slide-overlay-tag">Phòng khách sang trọng</span>
+                        </div>
+                        <div class="astra-slide-content">
+                            <h3 class="astra-slide-space-name">Điểm Nhấn Xanh Nâng Tầm Phòng Khách</h3>
+                            <p class="astra-slide-space-desc">
+                                Phòng khách là trái tim của ngôi nhà. Những tán lá xẻ quý phái mang lại sự bề thế, thịnh vượng, đồng thời tạo bầu không khí tiếp đón khách sang trọng và ấm cúng.
+                            </p>
+                            <div class="astra-slide-spec-list">
+                                <div class="astra-spec-item">
+                                    <div class="astra-spec-label">Vị trí đề xuất</div>
+                                    <div class="astra-spec-val">Cạnh sofa hoặc góc ban công</div>
+                                </div>
+                                <div class="astra-spec-item">
+                                    <div class="astra-spec-label">Ý nghĩa phong thủy</div>
+                                    <div class="astra-spec-val">Chiêu tài lộc &amp; Vượng khí</div>
+                                </div>
+                                <div class="astra-spec-item">
+                                    <div class="astra-spec-label">Chiều cao lý tưởng</div>
+                                    <div class="astra-spec-val">1.2m - 1.8m</div>
+                                </div>
+                                <div class="astra-spec-item">
+                                    <div class="astra-spec-label">Thời lượng nắng</div>
+                                    <div class="astra-spec-val">Nắng tán xạ 3-4 giờ/ngày</div>
+                                </div>
+                            </div>
+                            <div>
+                                <a href="{{ url_for('products.index', categoryId=4) }}" class="astra-btn-pill primary">
+                                    <span>Xem Cây Phòng Khách</span>
+                                    <span aria-hidden="true">→</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Bàn làm việc Focus -->
+                <div class="astra-showcase-slide" hidden>
+                    <div class="astra-slide-grid">
+                        <div class="astra-slide-visual">
+                            <img src="{{ url_for('static', filename='images/products/echeveria.jpg') }}" alt="Sen đá và cây để bàn làm việc" class="astra-slide-img" />
+                            <span class="astra-slide-overlay-tag">Không gian làm việc</span>
+                        </div>
+                        <div class="astra-slide-content">
+                            <h3 class="astra-slide-space-name">Làm Dịu Thị Giác &amp; Tăng Độ Tập Trung</h3>
+                            <p class="astra-slide-space-desc">
+                                Các chậu sen đá mọng nước, cây để bàn nhỏ gọn với khả năng hút bức xạ máy tính, giúp bạn giảm căng thẳng và nạp lại năng lượng sáng tạo trong những giờ làm việc căng thẳng.
+                            </p>
+                            <div class="astra-slide-spec-list">
+                                <div class="astra-spec-item">
+                                    <div class="astra-spec-label">Kích thước chậu</div>
+                                    <div class="astra-spec-val">8cm - 15cm (Để bàn vừa vặn)</div>
+                                </div>
+                                <div class="astra-spec-item">
+                                    <div class="astra-spec-label">Hấp thụ bức xạ</div>
+                                    <div class="astra-spec-val">Giảm mỏi mắt máy tính</div>
+                                </div>
+                                <div class="astra-spec-item">
+                                    <div class="astra-spec-label">Tần suất tưới</div>
+                                    <div class="astra-spec-val">10 - 14 ngày/lần</div>
+                                </div>
+                                <div class="astra-spec-item">
+                                    <div class="astra-spec-label">Độ bền sinh học</div>
+                                    <div class="astra-spec-val">Rất cao, chịu hạn tốt</div>
+                                </div>
+                            </div>
+                            <div>
+                                <a href="{{ url_for('products.index', q='Sen đá') }}" class="astra-btn-pill primary">
+                                    <span>Xem Cây Để Bàn</span>
+                                    <span aria-hidden="true">→</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Phòng thiền & thư giãn -->
+                <div class="astra-showcase-slide" hidden>
+                    <div class="astra-slide-grid">
+                        <div class="astra-slide-visual">
+                            <img src="{{ url_for('static', filename='images/products/snake-plant.jpg') }}" alt="Cây lưỡi hổ trong phòng thiền" class="astra-slide-img" />
+                            <span class="astra-slide-overlay-tag">Thanh tịnh &amp; An nhiên</span>
+                        </div>
+                        <div class="astra-slide-content">
+                            <h3 class="astra-slide-space-name">Thanh Lọc Khí Đêm &amp; Cân Bằng Tâm Trí</h3>
+                            <p class="astra-slide-space-desc">
+                                Cây Lưỡi Hổ giải phóng oxy vào ban đêm theo cơ chế CAM, hỗ trợ giấc ngủ sâu, đem lại bầu không khí thiền định tĩnh lặng và sảng khoái.
+                            </p>
+                            <div class="astra-slide-spec-list">
+                                <div class="astra-spec-item">
+                                    <div class="astra-spec-label">Cơ chế quang hợp</div>
+                                    <div class="astra-spec-val">CAM (Thải Oxy ban đêm)</div>
+                                </div>
+                                <div class="astra-spec-item">
+                                    <div class="astra-spec-label">Khử độc tố Formaldehyde</div>
+                                    <div class="astra-spec-val">Hiệu suất 99.1%</div>
+                                </div>
+                                <div class="astra-spec-item">
+                                    <div class="astra-spec-label">Nhu cầu nước</div>
+                                    <div class="astra-spec-val">Rất ít (2-3 tuần/lần)</div>
+                                </div>
+                                <div class="astra-spec-item">
+                                    <div class="astra-spec-label">Không gian phù hợp</div>
+                                    <div class="astra-spec-val">Phòng ngủ &amp; Góc thiền</div>
+                                </div>
+                            </div>
+                            <div>
+                                <a href="{{ url_for('products.index', q='Cây để bàn') }}" class="astra-btn-pill primary">
+                                    <span>Xem Cây Thanh Lọc Đêm</span>
+                                    <span aria-hidden="true">→</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================================
+     STAGE BENCHMARKS: BẢNG THÔNG SỐ SINH HỌC & CHỈ SỐ LỌC KHÍ (BENCHMARK CARDS)
+     ========================================================================= -->
+<section class="astra-benchmarks-section cinematic-scene py-5">
+    <div class="container">
+        <div class="astra-section-header text-center mb-5">
+            <div class="astra-badge-pill">
+                <span class="astra-badge-dot" aria-hidden="true"></span>
+                <span>Tiêu Chuẩn Vi Khí Hậu &amp; Lọc Không Khí</span>
+            </div>
+            <h2 class="astra-section-title">Tiêu Chuẩn Khoa Học Thực Vật</h2>
+            <p class="astra-section-lead">
+                Dữ liệu đo lường thực tế về hiệu quả vi khí hậu và độ bền sinh thái của cây cảnh Green Corner trong điều kiện nội thất văn phòng và căn hộ.
+            </p>
+        </div>
+
+        <div class="astra-benchmark-grid">
+            <div class="astra-benchmark-card">
+                <div class="astra-benchmark-top">
+                    <span class="astra-benchmark-icon">🍃</span>
+                    <span class="astra-benchmark-status" title="Hiệu suất tối ưu"></span>
+                </div>
+                <div class="astra-benchmark-val">98.6%</div>
+                <div class="astra-benchmark-title">Chỉ Số Thanh Lọc Không Khí (AQI)</div>
+                <p class="astra-benchmark-desc">
+                    Hấp thụ benzen, formaldehyde và các hợp chất hữu cơ dễ bay hơi từ sơn tường và nội thất gỗ công nghiệp.
+                </p>
+            </div>
+
+            <div class="astra-benchmark-card">
+                <div class="astra-benchmark-top">
+                    <span class="astra-benchmark-icon">💧</span>
+                    <span class="astra-benchmark-status" title="Hiệu suất tối ưu"></span>
+                </div>
+                <div class="astra-benchmark-val">55 - 65%</div>
+                <div class="astra-benchmark-title">Cân Bằng Độ Ẩm Tự Nhiên (RH)</div>
+                <p class="astra-benchmark-desc">
+                    Thoát hơi nước sinh học điều hòa độ ẩm lý tưởng cho da và hệ hô hấp trong không gian điều hòa kín.
+                </p>
+            </div>
+
+            <div class="astra-benchmark-card">
+                <div class="astra-benchmark-top">
+                    <span class="astra-benchmark-icon">☀️</span>
+                    <span class="astra-benchmark-status" title="Hiệu suất tối ưu"></span>
+                </div>
+                <div class="astra-benchmark-val">100%</div>
+                <div class="astra-benchmark-title">Thích Nghi Ánh Sáng Trong Nhà</div>
+                <p class="astra-benchmark-desc">
+                    Toàn bộ cây được thuần dưỡng trước 45 ngày để quang hợp khỏe mạnh dưới đèn huỳnh quang và đèn LED.
+                </p>
+            </div>
+
+            <div class="astra-benchmark-card">
+                <div class="astra-benchmark-top">
+                    <span class="astra-benchmark-icon">🛡️</span>
+                    <span class="astra-benchmark-status" title="Hiệu suất tối ưu"></span>
+                </div>
+                <div class="astra-benchmark-val">360°</div>
+                <div class="astra-benchmark-title">Bảo Vệ Đóng Gói Chân Không</div>
+                <p class="astra-benchmark-desc">
+                    Bầu đất được niêm phong chống rung lắc, giao hàng an toàn nguyên vẹn 100% với bảo hành 1 đổi 1.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================================
+     STAGE 02: 4 BIOME CATEGORY CARDS (LIQUID GLASS BIOME CARDS)
+     ========================================================================= -->
+<section id="stage-02" class="stage-scene py-5" data-stage-index="3">
+    <div class="container">
+        <div class="stage-header text-center mb-5">
+            <div class="stage-subtitle">
+                <span class="liquid-glass-pill">Hệ Sinh Thái Cây Cảnh</span>
+            </div>
+            <h2 class="stage-title">
+                Khám Phá Danh Mục Cây Cảnh
+            </h2>
+            <p class="stage-description mx-auto text-white-50">
+                Mỗi nhóm cây mang một vẻ đẹp và công năng riêng biệt — từ các loài sen đá mọng nước kiên cường đến những tán lá lọc không khí tinh tế.
+            </p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <!-- Biome 1: Sen đá -->
+            <div class="col-md-6 col-lg-3">
+                <a class="biome-liquid-card liquid-glass-card cinematic-focal-frame text-decoration-none"
+                   href="{{ url_for('products.index', categoryId=1) }}">
+                    <div class="liquid-shimmer" aria-hidden="true"></div>
+                    <div class="viewfinder-corner tl" aria-hidden="true"></div>
+                    <div class="viewfinder-corner tr" aria-hidden="true"></div>
+                    <div class="viewfinder-corner bl" aria-hidden="true"></div>
+                    <div class="viewfinder-corner br" aria-hidden="true"></div>
+
+                    <div class="biome-icon-orbit">
+                        <span class="biome-emoji" role="img" aria-label="Sen đá">🌱</span>
+                        <div class="biome-fluid-glow"></div>
+                    </div>
+                    <div class="biome-card-body">
+                        <span class="biome-code">DANH MỤC 01</span>
+                        <h3 class="biome-name">Sen Đá Tinh Khôi</h3>
+                        <p class="biome-summary">
+                            Nhỏ gọn, mọng nước, đường vân hình học kỳ diệu mang lại sự thư thái tuyệt đối cho bàn làm việc.
+                        </p>
+                        <span class="biome-explore-link">
+                            Xem danh mục <span class="explore-arrow">→</span>
+                        </span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Biome 2: Xương rồng -->
+            <div class="col-md-6 col-lg-3">
+                <a class="biome-liquid-card liquid-glass-card cinematic-focal-frame text-decoration-none"
+                   href="{{ url_for('products.index', categoryId=2) }}">
+                    <div class="liquid-shimmer" aria-hidden="true"></div>
+                    <div class="viewfinder-corner tl" aria-hidden="true"></div>
+                    <div class="viewfinder-corner tr" aria-hidden="true"></div>
+                    <div class="viewfinder-corner bl" aria-hidden="true"></div>
+                    <div class="viewfinder-corner br" aria-hidden="true"></div>
+
+                    <div class="biome-icon-orbit">
+                        <span class="biome-emoji" role="img" aria-label="Xương rồng">🌵</span>
+                        <div class="biome-fluid-glow"></div>
+                    </div>
+                    <div class="biome-card-body">
+                        <span class="biome-code">DANH MỤC 02</span>
+                        <h3 class="biome-name">Xương Rồng Kiên Cường</h3>
+                        <p class="biome-summary">
+                            Gai góc kiêu hãnh, biểu tượng của sức sống bền bỉ không đòi hỏi tưới nước hay chăm sóc cầu kỳ.
+                        </p>
+                        <span class="biome-explore-link">
+                            Xem danh mục <span class="explore-arrow">→</span>
+                        </span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Biome 3: Cây để bàn -->
+            <div class="col-md-6 col-lg-3">
+                <a class="biome-liquid-card liquid-glass-card cinematic-focal-frame text-decoration-none"
+                   href="{{ url_for('products.index', categoryId=3) }}">
+                    <div class="liquid-shimmer" aria-hidden="true"></div>
+                    <div class="viewfinder-corner tl" aria-hidden="true"></div>
+                    <div class="viewfinder-corner tr" aria-hidden="true"></div>
+                    <div class="viewfinder-corner bl" aria-hidden="true"></div>
+                    <div class="viewfinder-corner br" aria-hidden="true"></div>
+
+                    <div class="biome-icon-orbit">
+                        <span class="biome-emoji" role="img" aria-label="Cây để bàn">🪴</span>
+                        <div class="biome-fluid-glow"></div>
+                    </div>
+                    <div class="biome-card-body">
+                        <span class="biome-code">DANH MỤC 03</span>
+                        <h3 class="biome-name">Cây Để Bàn Lọc Khí</h3>
+                        <p class="biome-summary">
+                            Tán lá xanh tươi làm dịu thị giác, hấp thụ bức xạ màn hình máy tính và thanh lọc bụi mịn hiệu quả.
+                        </p>
+                        <span class="biome-explore-link">
+                            Xem danh mục <span class="explore-arrow">→</span>
+                        </span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Biome 4: Cây phong thủy -->
+            <div class="col-md-6 col-lg-3">
+                <a class="biome-liquid-card liquid-glass-card cinematic-focal-frame text-decoration-none"
+                   href="{{ url_for('products.index', categoryId=4) }}">
+                    <div class="liquid-shimmer" aria-hidden="true"></div>
+                    <div class="viewfinder-corner tl" aria-hidden="true"></div>
+                    <div class="viewfinder-corner tr" aria-hidden="true"></div>
+                    <div class="viewfinder-corner bl" aria-hidden="true"></div>
+                    <div class="viewfinder-corner br" aria-hidden="true"></div>
+
+                    <div class="biome-icon-orbit">
+                        <span class="biome-emoji" role="img" aria-label="Cây phong thủy">🍀</span>
+                        <div class="biome-fluid-glow"></div>
+                    </div>
+                    <div class="biome-card-body">
+                        <span class="biome-code">DANH MỤC 04</span>
+                        <h3 class="biome-name">Phong Thủy May Mắn</h3>
+                        <p class="biome-summary">
+                            Cân bằng nguồn năng lượng không gian, mang lại vượng khí, thịnh vượng và may mắn trong công việc.
+                        </p>
+                        <span class="biome-explore-link">
+                            Xem danh mục <span class="explore-arrow">→</span>
+                        </span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================================
+     STAGE 03: PHÒNG TRƯNG BÀY CÂY CẢNH KÍNH LỎNG (SHOWCASE FRAMES)
+     ========================================================================= -->
+<section id="stage-03" class="stage-scene stage-showcase cinematic-scene py-5" data-stage-index="4">
+    <div class="container">
+        <div class="stage-header text-center mb-5">
+            <div class="stage-subtitle">
+                <span class="liquid-glass-pill">Bộ Sưu Tập Cây Tuyển Chọn</span>
+            </div>
+            <h2 class="stage-title">
+                Cây Cảnh Tuyển Chọn Mới Nhất
+            </h2>
+            <p class="stage-description mx-auto text-white-50">
+                Từng chậu cây là một tác phẩm sống động, được chăm sóc kỹ lưỡng, rễ khỏe mạnh và sẵn sàng làm bừng sáng góc nhỏ của bạn.
+            </p>
+        </div>
+
+        <div class="row g-3 g-md-4">
+            {% for product in featured_products %}
+            <div class="col-6 col-md-6 col-lg-3">
+                <article class="showcase-liquid-card liquid-glass-card cinematic-focal-frame">
+                    <div class="liquid-shimmer" aria-hidden="true"></div>
+
+                    <div class="showcase-visual-frame">
+                        <span class="showcase-category-badge liquid-glass-pill">
+                            {{ product.category.category_name }}
+                        </span>
+
+                        {% if product.quantity > 0 %}
+                            <span class="showcase-stock-pill in-stock liquid-glass-pill">
+                                Còn {{ product.quantity }} chậu
+                            </span>
+                        {% else %}
+                            <span class="showcase-stock-pill out-stock liquid-glass-pill">
+                                Hết hàng
+                            </span>
+                        {% endif %}
+
+                        <a href="{{ url_for('products.detail', product_id=product.product_id) }}" class="showcase-image-anchor">
+                            <img src="{{ product.image_url }}" alt="{{ product.product_name }}" class="showcase-photo" loading="lazy" />
+                        </a>
+
+                        <div class="showcase-fluid-underglow" aria-hidden="true"></div>
+                    </div>
+
+                    <div class="showcase-details">
+                        <h3 class="showcase-item-title">
+                            <a href="{{ url_for('products.detail', product_id=product.product_id) }}">
+                                {{ product.product_name }}
+                            </a>
+                        </h3>
+
+                        <div class="showcase-pricing-row">
+                            <div class="showcase-price-box">
+                                <span class="price-val">{{ "{:,}".format(product.price | int).replace(',', '.') }}</span>
+                                <span class="price-cur">₫</span>
+                            </div>
+
+                            {% if product.quantity > 0 %}
+                                <form action="{{ url_for('cart.add', product_id=product.product_id) }}" method="post" class="m-0">
+                                    <button type="submit" class="btn-showcase-cart liquid-btn-primary" title="Thêm vào giỏ hàng">
+                                        <span class="btn-liquid-sheen" aria-hidden="true"></span>
+                                        <span class="btn-cart-icon" aria-hidden="true">🛒</span>
+                                        <span class="btn-cart-txt">Chọn</span>
+                                    </button>
+                                </form>
+                            {% else %}
+                                <button type="button" class="btn-showcase-cart disabled" title="Tạm hết hàng" disabled>
+                                    <span class="btn-cart-txt">Hết</span>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </article>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-5 pt-3">
+            <a href="{{ url_for('products.index') }}" class="btn-stage-secondary liquid-btn-secondary">
+                <span class="btn-liquid-sheen" aria-hidden="true"></span>
+                <span>Xem Toàn Bộ Cây Cảnh Trong Cửa Hàng</span>
+                <span class="btn-secondary-arrow" aria-hidden="true">→</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================================
+     STAGE 04: QUALITY STANDARDS (LIQUID GLASS STANDARDS CARDS)
+     ========================================================================= -->
+<section id="stage-04" class="stage-scene stage-standards cinematic-scene py-5" data-stage-index="5">
+    <div class="container">
+        <div class="stage-header text-center mb-5">
+            <div class="stage-subtitle">
+                <span class="liquid-glass-pill">Quy Trình &amp; Tiêu Chuẩn Chất Lượng</span>
+            </div>
+            <h2 class="stage-title">
+                Quy Trình Chăm Sóc &amp; Đóng Gói Chuẩn Mực
+            </h2>
+            <p class="stage-description mx-auto text-white-50">
+                Không chỉ gửi đi một chậu cây, chúng tôi cam kết đồng hành để mầm sống luôn xanh tươi trong mọi điều kiện ánh sáng.
+            </p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <!-- Standard 1 -->
+            <div class="col-lg-4">
+                <div class="standard-liquid-card liquid-glass-card cinematic-focal-frame">
+                    <div class="liquid-shimmer" aria-hidden="true"></div>
+                    <div class="standard-seq-number">01</div>
+                    <div class="standard-icon-circle">
+                        <span class="standard-emoji" role="img" aria-label="Vận chuyển an toàn">🚚</span>
+                    </div>
+                    <h3 class="standard-card-title">Đóng Gói Bảo Hộ 360°</h3>
+                    <p class="standard-card-text">
+                        Hộp đệm khí chân không chuyên dụng cố định bầu đất độc lập, đảm bảo cây tới tay bạn tươi tắn nguyên bản 100%.
+                    </p>
+                    <div class="standard-badge-pill liquid-glass-pill">Bảo hành 1 đổi 1 khi mở hộp</div>
+                </div>
+            </div>
+
+            <!-- Standard 2 -->
+            <div class="col-lg-4">
+                <div class="standard-liquid-card liquid-glass-card cinematic-focal-frame">
+                    <div class="liquid-shimmer" aria-hidden="true"></div>
+                    <div class="standard-seq-number">02</div>
+                    <div class="standard-icon-circle">
+                        <span class="standard-emoji" role="img" aria-label="Cây thuần dưỡng">🌿</span>
+                    </div>
+                    <h3 class="standard-card-title">Thuần Dưỡng &amp; Khỏe Mạnh</h3>
+                    <p class="standard-card-text">
+                        100% cây cảnh được làm quen với môi trường văn phòng và phòng máy lạnh, rễ chắc khỏe, không bị sốc nhiệt khi thay đổi vị trí.
+                    </p>
+                    <div class="standard-badge-pill liquid-glass-pill">Rễ khỏe • Đất hữu cơ sạch</div>
+                </div>
+            </div>
+
+            <!-- Standard 3 -->
+            <div class="col-lg-4">
+                <div class="standard-liquid-card liquid-glass-card cinematic-focal-frame">
+                    <div class="liquid-shimmer" aria-hidden="true"></div>
+                    <div class="standard-seq-number">03</div>
+                    <div class="standard-icon-circle">
+                        <span class="standard-emoji" role="img" aria-label="Hỗ trợ trọn đời">💚</span>
+                    </div>
+                    <h3 class="standard-card-title">Đồng Hành Trọn Vòng Đời</h3>
+                    <p class="standard-card-text">
+                        Tặng kèm cẩm nang chăm sóc và hỗ trợ tư vấn phục hồi cây trực tuyến 24/7 từ đội ngũ chuyên viên sinh học giàu kinh nghiệm.
+                    </p>
+                    <div class="standard-badge-pill liquid-glass-pill">Bác sĩ cây xanh hỗ trợ 24/7</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/astra-biosphere.js') }}"></script>
+{% endblock %}

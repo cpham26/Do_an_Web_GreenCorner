@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Đăng ký tài khoản - Green Corner{% endblock %}
+
+{% block content %}
+<section class="auth-section py-5">
+    <div class="container">
+        <div class="auth-shell">
+            <aside class="auth-aside">
+                <div>
+                    <a href="{{ url_for('main.index') }}" class="auth-brand">
+                        🌿 Green Corner
+                    </a>
+
+                    <p class="auth-kicker">THÀNH VIÊN MỚI</p>
+                    <h1>Kiến tạo góc xanh an nhiên cùng chúng tôi.</h1>
+                    <p>
+                        Trở thành thành viên Green Corner để nhận cẩm nang nuôi dưỡng thực vật và chính sách bảo trợ sức khỏe cây trọn đời.
+                    </p>
+                </div>
+
+                <ul class="auth-benefits" aria-label="Lợi ích tài khoản">
+                    <li><span aria-hidden="true">✓</span> Tích lũy ưu đãi thành viên Green Member</li>
+                    <li><span aria-hidden="true">✓</span> Quản lý tiến trình đơn hàng &amp; bảo hành</li>
+                    <li><span aria-hidden="true">✓</span> Tư vấn sinh thái trực tiếp từ chuyên gia</li>
+                </ul>
+            </aside>
+
+            <div class="auth-panel">
+                <div class="auth-panel-heading">
+                    <p>ĐĂNG KÝ</p>
+                    <h2>Tạo tài khoản</h2>
+                    <span>Điền thông tin để bắt đầu hành trình xanh.</span>
+                </div>
+
+                <form action="{{ url_for('auth.register') }}" method="post" class="auth-form">
+                    <div class="form-field mb-3">
+                        <label class="form-label text-white small fw-semibold">Họ và tên <span class="text-danger">*</span></label>
+                        <input type="text" name="full_name" class="form-control" required placeholder="Nguyễn Văn A" />
+                    </div>
+
+                    <div class="form-field mb-3">
+                        <label class="form-label text-white small fw-semibold">Địa chỉ Email <span class="text-danger">*</span></label>
+                        <input type="email" name="email" class="form-control" required placeholder="name@example.com" />
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-white small fw-semibold">Mật khẩu <span class="text-danger">*</span></label>
+                            <input type="password" name="password" class="form-control" required minlength="6" placeholder="Tối thiểu 6 ký tự" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-white small fw-semibold">Xác nhận mật khẩu <span class="text-danger">*</span></label>
+                            <input type="password" name="confirm_password" class="form-control" required minlength="6" placeholder="Nhập lại mật khẩu" />
+                        </div>
+                    </div>
+
+                    <div class="form-field mb-3">
+                        <label class="form-label text-white small fw-semibold">Số điện thoại</label>
+                        <input type="tel" name="phone" class="form-control" placeholder="09xxxxxxxx" />
+                    </div>
+
+                    <div class="form-field mb-4">
+                        <label class="form-label text-white small fw-semibold">Địa chỉ nhận hàng</label>
+                        <input type="text" name="address" class="form-control" placeholder="Số nhà, đường, quận/huyện, tỉnh/thành" />
+                    </div>
+
+                    <button type="submit" class="btn btn-green w-100 py-3 fw-bold">
+                        Đăng ký thành viên
+                    </button>
+
+                    <div class="auth-footer mt-4 text-center">
+                        <p class="text-muted small mb-0">
+                            Đã có tài khoản?
+                            <a href="{{ url_for('auth.login') }}" class="text-success fw-bold">
+                                Đăng nhập ngay
+                            </a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

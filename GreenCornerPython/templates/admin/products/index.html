@@ -1,0 +1,104 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Quản Lý Sản Phẩm - Green Corner Admin{% endblock %}
+{% block page_title %}Danh sách sản phẩm cây cảnh{% endblock %}
+
+{% block content %}
+<div class="admin-panel">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+        <!-- Search & Filter Form -->
+        <form method="get" class="d-flex gap-2 flex-grow-1" style="max-width: 500px;">
+            <input type="search" name="q" class="form-control" placeholder="Tìm tên cây..." value="{{ search }}" />
+            <select name="categoryId" class="form-select" style="max-width: 200px;">
+                <option value="">Tất cả danh mục</option>
+                {% for cat in categories %}
+                    <option value="{{ cat.category_id }}" {% if category_id == cat.category_id %}selected{% endif %}>{{ cat.category_name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-outline-success">Lọc</button>
+        </form>
+
+        <a href="{{ url_for('admin.create_product') }}" class="btn btn-green rounded-pill px-4">
+            + Thêm Cây Mới
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th style="width: 70px;">Ảnh</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Danh mục</th>
+                    <th>Giá bán</th>
+                    <th>Tồn kho</th>
+                    <th>Trạng thái</th>
+                    <th class="text-end" style="width: 150px;">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>
+                        <img src="{{ product.image_url }}" alt="{{ product.product_name }}" class="rounded-3" style="width: 50px; height: 50px; object-fit: cover;" />
+                    </td>
+                    <td>
+                        <strong class="d-block text-white">{{ product.product_name }}</strong>
+                        <small class="text-muted">Mã: GC-{{ product.product_id }}</small>
+                    </td>
+                    <td class="text-white">{{ product.category.category_name }}</td>
+                    <td class="fw-bold text-success">{{ product.formatted_price }}</td>
+                    <td>
+                        {% if product.quantity <= 0 %}
+                            <span class="badge bg-danger">Hết hàng (0)</span>
+                        {% elif product.quantity <= 10 %}
+                            <span class="badge bg-warning">{{ product.quantity }}</span>
+                        {% else %}
+                            <span class="badge bg-success">{{ product.quantity }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if product.is_active %}
+                            <span class="badge bg-success">Đang bán</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Ngừng bán</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end">
+                        <div class="d-flex justify-content-end gap-1">
+                            <a href="{{ url_for('admin.edit_product', product_id=product.product_id) }}" class="btn btn-sm btn-outline-primary" title="Chỉnh sửa">
+                                Sửa
+                            </a>
+                            <form action="{{ url_for('admin.delete_product', product_id=product.product_id) }}" method="post" onsubmit="return confirm('Bạn có chắc muốn xóa/ngừng bán sản phẩm này?');">
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Xóa">✕</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if pagination.pages > 1 %}
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if pagination.has_prev %}
+            <li class="page-item"><a class="page-link" href="{{ url_for('admin.products', page=pagination.prev_num, q=search, categoryId=category_id) }}">«</a></li>
+            {% endif %}
+            {% for p in pagination.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                {% if p %}
+                    <li class="page-item {% if p == pagination.page %}active{% endif %}">
+                        <a class="page-link" href="{{ url_for('admin.products', page=p, q=search, categoryId=category_id) }}">{{ p }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            {% if pagination.has_next %}
+            <li class="page-item"><a class="page-link" href="{{ url_for('admin.products', page=pagination.next_num, q=search, categoryId=category_id) }}">»</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

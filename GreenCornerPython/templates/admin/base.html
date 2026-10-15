@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{% block title %}Bảng Điều Khiển{% endblock %} - Green Corner Admin</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/bootstrap/dist/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}" />
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body class="admin-body astra-experience">
+    <div id="presentation-progress-bar" class="presentation-progress" role="progressbar" aria-label="Tiến trình" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    <canvas id="botanical-ambient-canvas" class="botanical-ambient-canvas" aria-hidden="true"></canvas>
+
+    <div class="admin-shell">
+        <aside class="offcanvas-lg offcanvas-start admin-sidebar" tabindex="-1" id="adminSidebar" aria-labelledby="adminSidebarLabel">
+            <div class="offcanvas-header admin-sidebar-mobile-header">
+                <a class="admin-brand" id="adminSidebarLabel" href="{{ url_for('admin.dashboard') }}">
+                    <span class="admin-brand-mark" aria-hidden="true">🌿</span>
+                    <span>Green Corner</span>
+                </a>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#adminSidebar" aria-label="Đóng menu"></button>
+            </div>
+
+            <div class="admin-sidebar-inner">
+                <a class="admin-brand d-none d-lg-flex" href="{{ url_for('admin.dashboard') }}">
+                    <span class="admin-brand-mark" aria-hidden="true">🌿</span>
+                    <span>
+                        Green Corner
+                        <small>Quản trị cửa hàng</small>
+                    </span>
+                </a>
+
+                <nav class="admin-nav" aria-label="Điều hướng quản trị">
+                    <p class="admin-nav-label">Tổng quan</p>
+                    <a class="admin-nav-link {% if request.endpoint == 'admin.dashboard' %}active{% endif %}" href="{{ url_for('admin.dashboard') }}">
+                        <span aria-hidden="true">⌂</span>
+                        Bảng điều khiển
+                    </a>
+
+                    <p class="admin-nav-label">Vận hành</p>
+                    <a class="admin-nav-link {% if 'products' in request.endpoint %}active{% endif %}" href="{{ url_for('admin.products') }}">
+                        <span aria-hidden="true">🪴</span>
+                        Sản phẩm
+                    </a>
+                    <a class="admin-nav-link {% if 'categories' in request.endpoint %}active{% endif %}" href="{{ url_for('admin.categories') }}">
+                        <span aria-hidden="true">▦</span>
+                        Danh mục
+                    </a>
+                    <a class="admin-nav-link {% if 'orders' in request.endpoint %}active{% endif %}" href="{{ url_for('admin.orders') }}">
+                        <span aria-hidden="true">▤</span>
+                        Đơn hàng
+                    </a>
+                    <a class="admin-nav-link {% if 'users' in request.endpoint %}active{% endif %}" href="{{ url_for('admin.users') }}">
+                        <span aria-hidden="true">♙</span>
+                        Người dùng
+                    </a>
+
+                    <p class="admin-nav-label">Liên kết ngoài</p>
+                    <a class="admin-nav-link" href="{{ url_for('main.index') }}" target="_blank">
+                        <span aria-hidden="true">↗</span>
+                        Xem Website
+                    </a>
+                </nav>
+
+                <div class="admin-sidebar-footer">
+                    <a class="admin-account-link" href="{{ url_for('admin.users') }}">
+                        <span aria-hidden="true">👤</span>
+                        Quản lý Admin
+                    </a>
+                    <a class="admin-logout-button text-decoration-none text-center" href="{{ url_for('admin.logout') }}">
+                        <span aria-hidden="true">⇥</span>
+                        Đăng xuất Admin
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <button class="admin-menu-button d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminSidebar" aria-controls="adminSidebar" aria-label="Mở menu quản trị">
+                    <span aria-hidden="true">☰</span>
+                </button>
+
+                <div class="admin-page-heading">
+                    <span class="admin-eyebrow">GREEN CORNER ADMIN</span>
+                    <h1>{% block page_title %}Bảng điều khiển{% endblock %}</h1>
+                </div>
+
+                <div class="admin-account">
+                    <span class="admin-account-avatar" aria-hidden="true">
+                        {{ (current_admin.full_name[:1] if current_admin else 'A').upper() }}
+                    </span>
+                    <span class="admin-account-copy">
+                        <small>{{ current_admin.email if current_admin else 'Quản trị viên' }}</small>
+                        <strong>{{ current_admin.full_name if current_admin else 'Admin' }}</strong>
+                    </span>
+                </div>
+            </header>
+
+            <main class="admin-content">
+                <!-- Flash messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert {% if category == 'error' %}alert-danger{% elif category == 'info' %}alert-info{% elif category == 'warning' %}alert-warning{% else %}alert-success{% endif %} alert-dismissible fade show" role="alert">
+                                <span>{{ message }}</span>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='lib/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

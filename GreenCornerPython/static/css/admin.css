@@ -1,0 +1,3148 @@
+:root {
+    --admin-green-950: #173126;
+    --admin-green-900: #203f30;
+    --admin-green-800: #2c5940;
+    --admin-green-700: #376f4d;
+    --admin-green-600: #4c815c;
+    --admin-green-100: #e8f2e9;
+    --admin-green-50: #f3f8f2;
+    --admin-ink: #24312a;
+    --admin-muted: #5b6a61;
+    --admin-border: #e1e9e2;
+    --admin-canvas: #f4f7f3;
+    --admin-white: #ffffff;
+    --admin-danger: #b44545;
+    --admin-danger-soft: #fbecec;
+    --admin-warning: #9b6a1b;
+    --admin-warning-soft: #fff5df;
+    --admin-blue: #356a8b;
+    --admin-blue-soft: #e9f3fa;
+    --admin-purple: #6b558e;
+    --admin-purple-soft: #f1edf8;
+    --admin-shadow: 0 14px 38px rgba(32, 63, 48, 0.07);
+    --admin-radius: 18px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+}
+
+.admin-body {
+    min-height: 100vh;
+    margin: 0;
+    color: var(--admin-ink);
+    background: var(--admin-canvas);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+.admin-body a {
+    color: inherit;
+}
+
+.admin-body button,
+.admin-body input,
+.admin-body select,
+.admin-body textarea {
+    font: inherit;
+}
+
+.admin-shell {
+    min-height: 100vh;
+}
+
+.admin-sidebar {
+    --bs-offcanvas-width: 272px;
+    width: 272px;
+    color: #e8f2ea;
+    background: linear-gradient(180deg, var(--admin-green-950), #1e3b2d 72%, #183326);
+    border: 0;
+}
+
+@media (min-width: 992px) {
+    .admin-sidebar {
+        position: fixed;
+        inset: 0 auto 0 0;
+        z-index: 1030;
+        height: 100vh;
+    }
+}
+
+.admin-sidebar-mobile-header {
+    padding: 22px 22px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.admin-sidebar-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 28px 20px 20px;
+    overflow-y: auto;
+}
+
+.admin-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #fff !important;
+    text-decoration: none;
+    font-size: 19px;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+}
+
+.admin-brand small {
+    display: block;
+    margin-top: 2px;
+    color: #9eb8a7;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.admin-brand-mark {
+    display: grid;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.09);
+    font-size: 22px;
+}
+
+.admin-nav {
+    margin-top: 34px;
+}
+
+.admin-nav-label {
+    margin: 23px 12px 8px;
+    color: #789483;
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.admin-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-height: 46px;
+    margin: 4px 0;
+    padding: 11px 14px;
+    color: #bfd0c4 !important;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 160ms ease;
+}
+
+.admin-nav-link > span {
+    display: grid;
+    width: 22px;
+    place-items: center;
+    font-size: 18px;
+}
+
+.admin-nav-link:hover {
+    color: #fff !important;
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.admin-nav-link.active {
+    color: #fff !important;
+    border-color: rgba(255, 255, 255, 0.08);
+    background: rgba(126, 174, 139, 0.18);
+    box-shadow: inset 3px 0 #8fbf98;
+}
+
+.admin-sidebar-footer {
+    display: grid;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 28px;
+}
+
+.admin-sidebar-footer form {
+    margin: 0;
+}
+
+.admin-account-link,
+.admin-logout-button {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    width: 100%;
+    padding: 11px 13px;
+    color: #aebfb3 !important;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+    transition: 160ms ease;
+}
+
+.admin-account-link:hover,
+.admin-logout-button:hover {
+    color: #fff !important;
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.admin-main {
+    min-width: 0;
+    min-height: 100vh;
+    margin-left: 272px;
+}
+
+.admin-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    display: flex;
+    align-items: center;
+    min-height: 88px;
+    padding: 17px clamp(22px, 3vw, 46px);
+    border-bottom: 1px solid rgba(218, 228, 219, 0.85);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 3px 18px rgba(32, 63, 48, 0.025);
+    backdrop-filter: blur(12px);
+}
+
+.admin-page-heading {
+    min-width: 0;
+}
+
+.admin-eyebrow,
+.admin-panel-kicker {
+    display: block;
+    color: var(--admin-green-600);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+}
+
+.admin-page-heading h1 {
+    margin: 3px 0 0;
+    color: var(--admin-green-950);
+    font-size: clamp(22px, 2vw, 29px);
+    font-weight: 760;
+    letter-spacing: -0.035em;
+    line-height: 1.15;
+}
+
+.admin-account {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-left: auto;
+}
+
+.admin-account-avatar {
+    display: grid;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    color: var(--admin-green-800);
+    border: 1px solid #d6e5d8;
+    border-radius: 50%;
+    background: var(--admin-green-100);
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.admin-account-copy {
+    display: grid;
+}
+
+.admin-account-copy small {
+    color: var(--admin-muted);
+    font-size: 11px;
+}
+
+.admin-account-copy strong {
+    max-width: 180px;
+    overflow: hidden;
+    font-size: 13px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-menu-button {
+    display: grid;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    margin-right: 14px;
+    place-items: center;
+    color: var(--admin-green-800);
+    border: 1px solid var(--admin-border);
+    border-radius: 11px;
+    background: #fff;
+    font-size: 20px;
+}
+
+.admin-content {
+    width: 100%;
+    max-width: 1660px;
+    margin: 0 auto;
+    padding: 32px clamp(20px, 3vw, 46px) 56px;
+}
+
+.admin-alert {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-bottom: 20px;
+    padding: 14px 17px;
+    border: 1px solid;
+    border-radius: 13px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.admin-alert > span:first-child {
+    display: grid;
+    flex: 0 0 25px;
+    width: 25px;
+    height: 25px;
+    place-items: center;
+    border-radius: 50%;
+    color: #fff;
+    font-weight: 800;
+}
+
+.admin-alert-success {
+    color: #2d6541;
+    border-color: #cde5d3;
+    background: #eff8f1;
+}
+
+.admin-alert-success > span:first-child {
+    background: #3f8156;
+}
+
+.admin-alert-danger {
+    color: #8f3636;
+    border-color: #f0cccc;
+    background: #fff1f1;
+}
+
+.admin-alert-danger > span:first-child {
+    background: var(--admin-danger);
+}
+
+.admin-page-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+.admin-page-actions p {
+    max-width: 700px;
+    margin: 0;
+    color: var(--admin-muted);
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+.admin-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 42px;
+    padding: 9px 16px;
+    border: 1px solid transparent;
+    border-radius: 11px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: 160ms ease;
+}
+
+.admin-button:hover {
+    transform: translateY(-1px);
+}
+
+.admin-button-primary {
+    color: #fff !important;
+    border-color: var(--admin-green-700);
+    background: var(--admin-green-700);
+    box-shadow: 0 7px 18px rgba(55, 111, 77, 0.17);
+}
+
+.admin-button-primary:hover {
+    border-color: var(--admin-green-800);
+    background: var(--admin-green-800);
+}
+
+.admin-button-ghost {
+    color: #3e5949 !important;
+    border-color: #d8e3da;
+    background: #fff;
+}
+
+.admin-button-ghost:hover {
+    border-color: #b9cebd;
+    background: var(--admin-green-50);
+}
+
+.admin-button-danger {
+    color: var(--admin-danger) !important;
+    border-color: #edcccc;
+    background: #fff;
+}
+
+.admin-button-danger:hover:not(:disabled) {
+    color: #fff !important;
+    border-color: var(--admin-danger);
+    background: var(--admin-danger);
+}
+
+.admin-button:disabled,
+.admin-button.disabled {
+    opacity: 0.48;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.admin-button-small {
+    min-height: 36px;
+    padding: 7px 12px;
+    color: var(--admin-green-800);
+    border-color: #d4e2d6;
+    background: var(--admin-green-50);
+}
+
+.admin-panel {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius);
+    background: var(--admin-white);
+    box-shadow: var(--admin-shadow);
+}
+
+.admin-panel + .admin-panel {
+    margin-top: 22px;
+}
+
+.admin-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 23px 25px 18px;
+}
+
+.admin-panel-header h2 {
+    margin: 4px 0 0;
+    color: var(--admin-green-950);
+    font-size: 18px;
+    font-weight: 750;
+    letter-spacing: -0.025em;
+}
+
+.admin-text-link,
+.admin-row-link {
+    color: var(--admin-green-700) !important;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 750;
+}
+
+.admin-text-link:hover,
+.admin-row-link:hover {
+    color: var(--admin-green-900) !important;
+    text-decoration: underline;
+}
+
+.admin-result-count {
+    color: var(--admin-muted);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.admin-metric-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+.admin-metric-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+    padding: 22px;
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius);
+    background: #fff;
+    box-shadow: var(--admin-shadow);
+}
+
+.admin-metric-icon {
+    display: grid;
+    flex: 0 0 52px;
+    width: 52px;
+    height: 52px;
+    place-items: center;
+    border-radius: 15px;
+    font-size: 23px;
+}
+
+.admin-metric-card > div:last-child {
+    display: grid;
+    min-width: 0;
+}
+
+.admin-metric-card span {
+    color: var(--admin-muted);
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.admin-metric-card strong {
+    margin: 2px 0;
+    overflow: hidden;
+    color: var(--admin-green-950);
+    font-size: clamp(20px, 2vw, 27px);
+    font-weight: 780;
+    letter-spacing: -0.035em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-metric-card small {
+    color: #87938b;
+    font-size: 11px;
+}
+
+.metric-green .admin-metric-icon {
+    color: var(--admin-green-700);
+    background: var(--admin-green-100);
+}
+
+.metric-amber .admin-metric-icon {
+    color: var(--admin-warning);
+    background: var(--admin-warning-soft);
+}
+
+.metric-blue .admin-metric-icon {
+    color: var(--admin-blue);
+    background: var(--admin-blue-soft);
+}
+
+.metric-purple .admin-metric-icon {
+    color: var(--admin-purple);
+    background: var(--admin-purple-soft);
+}
+
+.admin-insight-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(290px, 0.85fr);
+    gap: 22px;
+    align-items: start;
+}
+
+.admin-quick-panel {
+    padding-bottom: 22px;
+}
+
+.admin-quick-links {
+    display: grid;
+    gap: 1px;
+    padding: 0 14px;
+}
+
+.admin-quick-links > a {
+    display: grid;
+    grid-template-columns: 39px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 10px;
+    border-radius: 11px;
+    color: var(--admin-ink) !important;
+    text-decoration: none;
+    transition: 160ms ease;
+}
+
+.admin-quick-links > a:hover {
+    background: var(--admin-green-50);
+}
+
+.admin-quick-links > a > span:nth-child(2) {
+    display: grid;
+}
+
+.admin-quick-links strong {
+    font-size: 13px;
+}
+
+.admin-quick-links small {
+    color: var(--admin-muted);
+    font-size: 11px;
+}
+
+.quick-link-icon {
+    display: grid;
+    width: 39px;
+    height: 39px;
+    place-items: center;
+    color: var(--admin-green-700);
+    border-radius: 11px;
+    background: var(--admin-green-100);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.admin-health-card {
+    display: flex;
+    gap: 11px;
+    margin: 18px 22px 0;
+    padding: 14px;
+    color: #376947;
+    border: 1px solid #cee4d3;
+    border-radius: 12px;
+    background: #f0f8f2;
+}
+
+.admin-health-card.needs-attention {
+    color: #855d1b;
+    border-color: #efdaac;
+    background: #fff8e9;
+}
+
+.admin-health-card > span {
+    display: grid;
+    flex: 0 0 24px;
+    width: 24px;
+    height: 24px;
+    place-items: center;
+    border-radius: 50%;
+    background: currentColor;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.admin-health-card strong {
+    display: block;
+    font-size: 12px;
+}
+
+.admin-health-card p {
+    margin: 2px 0 0;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.admin-filter-panel {
+    margin-bottom: 22px;
+    padding: 21px 23px;
+    overflow: visible;
+}
+
+.admin-filter-grid {
+    display: grid;
+    grid-template-columns: minmax(230px, 1.5fr) minmax(180px, 0.8fr) minmax(165px, 0.65fr) auto;
+    gap: 15px;
+    align-items: end;
+}
+
+.admin-filter-grid-orders {
+    grid-template-columns: minmax(260px, 1.5fr) minmax(190px, 0.65fr) auto;
+}
+
+.admin-filter-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.admin-field {
+    min-width: 0;
+}
+
+.admin-field label {
+    display: block;
+    margin-bottom: 7px;
+    color: #435249;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.admin-field input:not([type="checkbox"]),
+.admin-field select,
+.admin-field textarea,
+.admin-role-form select {
+    display: block;
+    width: 100%;
+    min-height: 42px;
+    padding: 9px 12px;
+    color: var(--admin-ink);
+    border: 1px solid #d7e1d8;
+    border-radius: 10px;
+    outline: 0;
+    background: #fff;
+    font-size: 13px;
+    line-height: 1.4;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.admin-field textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+.admin-field input:focus,
+.admin-field select:focus,
+.admin-field textarea:focus,
+.admin-role-form select:focus {
+    border-color: #76a483;
+    box-shadow: 0 0 0 3px rgba(76, 129, 92, 0.12);
+}
+
+.admin-input-with-icon {
+    position: relative;
+}
+
+.admin-input-with-icon > span {
+    position: absolute;
+    top: 50%;
+    left: 13px;
+    color: #819087;
+    font-size: 18px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.admin-input-with-icon > input {
+    padding-left: 38px !important;
+}
+
+.admin-input-suffix {
+    position: relative;
+}
+
+.admin-input-suffix input {
+    padding-right: 38px !important;
+}
+
+.admin-input-suffix > span {
+    position: absolute;
+    top: 50%;
+    right: 13px;
+    color: var(--admin-muted);
+    font-size: 13px;
+    font-weight: 700;
+    transform: translateY(-50%);
+}
+
+.admin-field-note {
+    display: block;
+    margin-top: 7px;
+    color: var(--admin-muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.admin-field-note a {
+    color: var(--admin-green-700) !important;
+    font-weight: 700;
+}
+
+.field-validation-error,
+.admin-field > span[data-valmsg-for] {
+    display: block;
+    margin-top: 6px;
+    color: var(--admin-danger);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.input-validation-error {
+    border-color: #d97575 !important;
+    box-shadow: 0 0 0 3px rgba(180, 69, 69, 0.08) !important;
+}
+
+.admin-validation-summary {
+    margin-bottom: 20px;
+    padding: 13px 16px;
+    color: #8f3636;
+    border: 1px solid #efcccc;
+    border-radius: 11px;
+    background: #fff2f2;
+    font-size: 12px;
+}
+
+.admin-validation-summary:empty,
+.admin-validation-summary.validation-summary-valid {
+    display: none;
+}
+
+.admin-validation-summary ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.admin-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    margin: 0;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 14px 15px;
+    border-bottom: 1px solid #e9eee9;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.admin-table th:first-child,
+.admin-table td:first-child {
+    padding-left: 25px;
+}
+
+.admin-table th:last-child,
+.admin-table td:last-child {
+    padding-right: 25px;
+}
+
+.admin-table th {
+    color: #56655c;
+    background: #f8faf8;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.admin-table tbody tr {
+    transition: background 130ms ease;
+}
+
+.admin-table tbody tr:hover {
+    background: rgba(16, 185, 129, 0.12) !important;
+}
+
+.admin-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.admin-table-subtitle {
+    display: block;
+    margin-top: 3px;
+    color: var(--admin-muted);
+    font-size: 11px;
+    font-weight: 400;
+}
+
+.admin-product-cell,
+.admin-user-cell {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 190px;
+}
+
+.admin-product-cell > div:last-child,
+.admin-user-cell > div:last-child {
+    display: grid;
+}
+
+.admin-product-cell strong,
+.admin-user-cell strong {
+    max-width: 240px;
+    overflow: hidden;
+    color: var(--admin-ink);
+    font-size: 12px;
+    text-overflow: ellipsis;
+}
+
+.admin-product-cell small,
+.admin-user-cell small {
+    margin-top: 3px;
+    color: var(--admin-muted);
+    font-size: 10px;
+}
+
+.admin-product-thumb {
+    display: grid;
+    flex: 0 0 43px;
+    width: 43px;
+    height: 43px;
+    overflow: hidden;
+    place-items: center;
+    border: 1px solid #dce7dc;
+    border-radius: 11px;
+    background: var(--admin-green-50);
+    font-size: 21px;
+}
+
+.admin-product-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.admin-stock {
+    font-weight: 750;
+}
+
+.admin-stock.low {
+    color: var(--admin-danger);
+}
+
+.admin-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 25px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 750;
+    white-space: nowrap;
+}
+
+.admin-status::before {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    content: "";
+}
+
+.status-active,
+.status-completed {
+    color: #337047;
+    background: #e7f5ea;
+}
+
+.status-inactive,
+.status-cancelled {
+    color: #9c4545;
+    background: #faeaea;
+}
+
+.status-pending {
+    color: #936418;
+    background: #fff1d6;
+}
+
+.status-confirmed,
+.status-shipping {
+    color: #356a8b;
+    background: #e8f2f8;
+}
+
+.status-admin {
+    color: #624785;
+    background: #f0eaf8;
+}
+
+.status-customer {
+    color: #476252;
+    background: #edf3ee;
+}
+
+.status-unknown {
+    color: #6d716e;
+    background: #eff1ef;
+}
+
+.admin-row-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.admin-row-actions form {
+    margin: 0;
+}
+
+.admin-icon-button {
+    display: grid;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    place-items: center;
+    color: #486052 !important;
+    border: 1px solid #dbe4dc;
+    border-radius: 9px;
+    background: #fff;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 140ms ease;
+}
+
+.admin-icon-button:hover {
+    color: var(--admin-green-800) !important;
+    border-color: #bcd0bf;
+    background: var(--admin-green-50);
+}
+
+.admin-icon-button.danger:hover {
+    color: var(--admin-danger) !important;
+    border-color: #e7bcbc;
+    background: var(--admin-danger-soft);
+}
+
+.admin-icon-button.success:hover {
+    color: var(--admin-green-700) !important;
+    border-color: #bbd8c1;
+    background: var(--admin-green-100);
+}
+
+.admin-empty-state {
+    display: grid;
+    justify-items: center;
+    padding: 62px 24px;
+    text-align: center;
+}
+
+.admin-empty-state.compact {
+    padding: 45px 24px;
+}
+
+.admin-empty-state > span {
+    display: grid;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 14px;
+    place-items: center;
+    color: var(--admin-green-700);
+    border-radius: 18px;
+    background: var(--admin-green-100);
+    font-size: 30px;
+}
+
+.admin-empty-state h3 {
+    margin: 0;
+    color: var(--admin-green-950);
+    font-size: 17px;
+}
+
+.admin-empty-state p {
+    margin: 6px 0 17px;
+    color: var(--admin-muted);
+    font-size: 12px;
+}
+
+.admin-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+    padding: 17px 23px;
+    border-top: 1px solid var(--admin-border);
+}
+
+.admin-pagination .pagination-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 35px;
+    padding: 7px 11px;
+    color: var(--admin-green-800) !important;
+    border: 1px solid #d7e2d8;
+    border-radius: 9px;
+    background: #fff;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.admin-pagination a.pagination-control:hover {
+    background: var(--admin-green-50);
+}
+
+.admin-pagination .pagination-control.disabled {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.admin-pagination > span {
+    color: var(--admin-muted);
+    font-size: 11px;
+}
+
+.admin-form-panel {
+    max-width: 1040px;
+    padding: 28px;
+}
+
+.admin-form-panel-narrow {
+    max-width: 720px;
+}
+
+.admin-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 21px;
+}
+
+.admin-form-grid.single-column {
+    grid-template-columns: 1fr;
+}
+
+.admin-field-wide,
+.admin-field-full {
+    grid-column: 1 / -1;
+}
+
+.admin-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 27px;
+    padding-top: 21px;
+    border-top: 1px solid var(--admin-border);
+}
+
+.admin-switch {
+    display: flex !important;
+    align-items: flex-start;
+    gap: 12px;
+    width: fit-content;
+    margin: 2px 0 0 !important;
+    cursor: pointer;
+}
+
+.admin-switch > input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+.admin-switch-track {
+    position: relative;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 24px;
+    margin-top: 1px;
+    border-radius: 999px;
+    background: #cbd5cd;
+    transition: 160ms ease;
+}
+
+.admin-switch-track::after {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+    content: "";
+    transition: 160ms ease;
+}
+
+.admin-switch input:checked + .admin-switch-track {
+    background: var(--admin-green-700);
+}
+
+.admin-switch input:checked + .admin-switch-track::after {
+    transform: translateX(20px);
+}
+
+.admin-switch input:focus-visible + .admin-switch-track {
+    outline: 3px solid rgba(76, 129, 92, 0.2);
+    outline-offset: 2px;
+}
+
+.admin-switch > span:last-child {
+    display: grid;
+}
+
+.admin-switch strong {
+    color: var(--admin-ink);
+    font-size: 13px;
+}
+
+.admin-switch small {
+    margin-top: 2px;
+    color: var(--admin-muted);
+    font-size: 11px;
+    font-weight: 400;
+}
+
+.admin-category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 17px;
+    padding: 0 24px 25px;
+}
+
+.admin-category-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 220px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    background: rgba(14, 24, 18, 0.85);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+}
+
+.admin-category-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.admin-category-icon {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border-radius: 12px;
+    background: rgba(16, 185, 129, 0.2);
+    border: 1px solid rgba(52, 211, 153, 0.35);
+    color: #34d399;
+    font-size: 21px;
+}
+
+.admin-count-badge,
+.admin-you-badge {
+    display: inline-flex;
+    padding: 4px 8px;
+    color: #6ee7b7;
+    border-radius: 999px;
+    background: rgba(52, 211, 153, 0.15);
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    font-size: 9px;
+    font-weight: 750;
+}
+
+.admin-category-card h2 {
+    margin: 17px 0 6px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 750;
+}
+
+.admin-category-card p {
+    margin: 0 0 18px;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 11px;
+    line-height: 1.65;
+}
+
+.admin-category-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.admin-category-actions form {
+    margin: 0;
+}
+
+.admin-category-actions .admin-button {
+    min-height: 36px;
+    padding: 7px 12px;
+    font-size: 11px;
+}
+
+.admin-order-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.75fr) minmax(285px, 0.65fr);
+    gap: 22px;
+    align-items: start;
+}
+
+.admin-order-aside {
+    display: grid;
+    gap: 22px;
+}
+
+.admin-order-aside .admin-panel {
+    margin: 0;
+    padding: 23px;
+}
+
+.admin-order-lines tfoot td {
+    padding-top: 18px;
+    padding-bottom: 18px;
+    color: var(--admin-green-900);
+    border-top: 2px solid var(--admin-border);
+    border-bottom: 0;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.admin-detail-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 28px;
+    margin: 0;
+    padding: 0 25px 25px;
+}
+
+.admin-detail-list > div {
+    min-width: 0;
+}
+
+.admin-detail-list > .full {
+    grid-column: 1 / -1;
+}
+
+.admin-detail-list dt,
+.admin-mini-details dt {
+    color: var(--admin-muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.admin-detail-list dd,
+.admin-mini-details dd {
+    margin: 5px 0 0;
+    color: var(--admin-ink);
+    font-size: 13px;
+    font-weight: 650;
+    line-height: 1.55;
+}
+
+.admin-current-status {
+    margin: 10px 0 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--admin-border);
+}
+
+.admin-status-form {
+    display: grid;
+    gap: 13px;
+}
+
+.admin-warning-note {
+    display: flex;
+    gap: 8px;
+    margin: 15px 0 0;
+    padding: 11px;
+    color: #835b1a;
+    border-radius: 9px;
+    background: var(--admin-warning-soft);
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.admin-warning-note > span {
+    font-weight: 850;
+}
+
+.admin-customer-card {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin: 13px 0 18px;
+}
+
+.admin-customer-card > div {
+    display: grid;
+    min-width: 0;
+}
+
+.admin-customer-card strong {
+    overflow: hidden;
+    font-size: 13px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-customer-card small {
+    overflow: hidden;
+    color: var(--admin-muted);
+    font-size: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-mini-details {
+    display: grid;
+    gap: 11px;
+    margin: 0;
+    padding-top: 15px;
+    border-top: 1px solid var(--admin-border);
+}
+
+.admin-mini-details > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.admin-mini-details dd {
+    margin: 0;
+}
+
+.admin-role-form {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 7px;
+    margin: 0;
+}
+
+.admin-role-form select {
+    width: 118px;
+    min-height: 36px;
+    padding: 7px 9px;
+    font-size: 11px;
+}
+
+.admin-you-badge {
+    margin-left: 5px;
+    vertical-align: 1px;
+}
+
+.admin-security-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    margin-top: 18px;
+    padding: 15px 18px;
+    color: #516158;
+    border: 1px solid #dbe5dc;
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.7);
+    font-size: 11px;
+    line-height: 1.55;
+}
+
+.admin-security-note p {
+    margin: 0;
+}
+
+.admin-security-note strong {
+    color: var(--admin-green-900);
+}
+
+.admin-body :focus-visible {
+    outline: 3px solid rgba(76, 129, 92, 0.28);
+    outline-offset: 2px;
+}
+
+@media (max-width: 1250px) {
+    .admin-metric-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-insight-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-category-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-order-layout {
+        grid-template-columns: minmax(0, 1.55fr) minmax(270px, 0.7fr);
+    }
+}
+
+@media (max-width: 991.98px) {
+    .admin-sidebar {
+        min-height: 100vh;
+    }
+
+    .admin-main {
+        margin-left: 0;
+    }
+
+    .admin-sidebar-inner {
+        padding-top: 12px;
+    }
+
+    .admin-nav {
+        margin-top: 10px;
+    }
+
+    .admin-filter-grid,
+    .admin-filter-grid-orders {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-search-field {
+        grid-column: 1 / -1;
+    }
+
+    .admin-filter-actions {
+        justify-content: flex-end;
+    }
+
+    .admin-order-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-order-aside {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 767.98px) {
+    .admin-topbar {
+        min-height: 76px;
+        padding: 13px 17px;
+    }
+
+    .admin-eyebrow,
+    .admin-account-copy {
+        display: none;
+    }
+
+    .admin-account-avatar {
+        width: 38px;
+        height: 38px;
+        flex-basis: 38px;
+    }
+
+    .admin-content {
+        padding: 23px 15px 42px;
+    }
+
+    .admin-page-actions {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .admin-page-actions .admin-button {
+        width: 100%;
+    }
+
+    .admin-page-actions-back {
+        flex-direction: column-reverse;
+    }
+
+    .admin-metric-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .admin-metric-card {
+        padding: 17px;
+    }
+
+    .admin-panel-header {
+        align-items: flex-start;
+        padding: 20px 18px 15px;
+    }
+
+    .admin-list-header {
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .admin-filter-panel {
+        padding: 18px;
+    }
+
+    .admin-filter-grid,
+    .admin-filter-grid-orders {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-search-field {
+        grid-column: auto;
+    }
+
+    .admin-filter-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-table th:first-child,
+    .admin-table td:first-child {
+        padding-left: 18px;
+    }
+
+    .admin-table th:last-child,
+    .admin-table td:last-child {
+        padding-right: 18px;
+    }
+
+    .admin-pagination {
+        justify-content: space-between;
+        gap: 8px;
+        padding: 15px 18px;
+    }
+
+    .admin-pagination > span {
+        text-align: center;
+    }
+
+    .admin-form-panel {
+        padding: 21px 18px;
+    }
+
+    .admin-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-field-wide,
+    .admin-field-full {
+        grid-column: auto;
+    }
+
+    .admin-form-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-category-grid {
+        grid-template-columns: 1fr;
+        padding: 0 18px 20px;
+    }
+
+    .admin-order-aside {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-detail-list {
+        grid-template-columns: 1fr;
+        padding: 0 18px 20px;
+    }
+
+    .admin-detail-list > .full {
+        grid-column: auto;
+    }
+}
+
+@media (max-width: 440px) {
+    .admin-page-heading h1 {
+        font-size: 20px;
+    }
+
+    .admin-account {
+        display: none;
+    }
+
+    .admin-pagination .pagination-control {
+        padding: 7px 9px;
+    }
+
+    .admin-pagination > span {
+        font-size: 10px;
+    }
+
+    .admin-form-actions,
+    .admin-filter-actions {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Dedicated Admin authentication portal */
+.admin-auth-body {
+    background:
+        radial-gradient(circle at 12% 16%, rgba(133, 180, 143, 0.22), transparent 28rem),
+        radial-gradient(circle at 88% 82%, rgba(214, 177, 111, 0.16), transparent 30rem),
+        #edf3ed;
+}
+
+.admin-auth-page {
+    position: relative;
+    display: grid;
+    min-height: 100vh;
+    padding: clamp(20px, 5vw, 64px);
+    place-items: center;
+    overflow: hidden;
+}
+
+.admin-auth-page::before,
+.admin-auth-page::after {
+    position: fixed;
+    width: 320px;
+    height: 320px;
+    content: "";
+    border: 1px solid rgba(55, 111, 77, 0.09);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.admin-auth-page::before {
+    top: -190px;
+    right: -75px;
+}
+
+.admin-auth-page::after {
+    bottom: -210px;
+    left: -95px;
+}
+
+.admin-auth-card {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(420px, 1.08fr);
+    width: min(1040px, 100%);
+    min-height: 610px;
+    overflow: hidden;
+    border: 1px solid rgba(32, 63, 48, 0.09);
+    border-radius: 28px;
+    background: var(--admin-white);
+    box-shadow: 0 32px 90px rgba(29, 58, 42, 0.16);
+}
+
+.admin-auth-intro {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(38px, 5vw, 64px);
+    color: #eaf4ec;
+    background:
+        radial-gradient(circle at 86% 18%, rgba(153, 199, 160, 0.18), transparent 14rem),
+        linear-gradient(145deg, var(--admin-green-950), #244a35 62%, #315d42);
+}
+
+.admin-auth-intro::after {
+    position: absolute;
+    right: -74px;
+    bottom: -88px;
+    width: 245px;
+    height: 245px;
+    content: "";
+    border: 42px solid rgba(255, 255, 255, 0.035);
+    border-radius: 50%;
+}
+
+.admin-auth-brand {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 780;
+    letter-spacing: -0.02em;
+}
+
+.admin-auth-brand small {
+    display: block;
+    margin-top: 2px;
+    color: #9fb9a7;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.admin-auth-kicker {
+    margin: clamp(58px, 10vh, 92px) 0 12px;
+    color: #99c3a3;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.17em;
+}
+
+.admin-auth-intro h1 {
+    max-width: 430px;
+    margin: 0;
+    color: #fff;
+    font-size: clamp(31px, 4vw, 47px);
+    font-weight: 760;
+    line-height: 1.08;
+    letter-spacing: -0.045em;
+}
+
+.admin-auth-intro h1 + p {
+    max-width: 440px;
+    margin: 22px 0 0;
+    color: #bfd1c3;
+    font-size: 15px;
+    line-height: 1.75;
+}
+
+.admin-auth-features {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 12px;
+    margin: 42px 0 0;
+    padding: 0;
+    list-style: none;
+    color: #d6e4d9;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.admin-auth-features li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-auth-features li > span {
+    display: grid;
+    width: 23px;
+    height: 23px;
+    color: #b8d9bf;
+    border: 1px solid rgba(184, 217, 191, 0.25);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.07);
+    font-size: 12px;
+    place-items: center;
+}
+
+.admin-auth-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(38px, 6vw, 74px);
+}
+
+.admin-auth-heading > p {
+    margin: 0 0 9px;
+    color: var(--admin-green-600);
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 0.17em;
+}
+
+.admin-auth-heading h2 {
+    margin: 0;
+    color: var(--admin-green-950);
+    font-size: clamp(29px, 3vw, 38px);
+    font-weight: 780;
+    letter-spacing: -0.035em;
+}
+
+.admin-auth-heading > span {
+    display: block;
+    margin-top: 10px;
+    color: var(--admin-muted);
+    font-size: 14px;
+}
+
+.admin-auth-panel .admin-alert {
+    margin: 24px 0 -4px;
+}
+
+.admin-auth-form {
+    display: grid;
+    gap: 21px;
+    margin-top: 32px;
+}
+
+.admin-auth-form .admin-field input {
+    min-height: 50px;
+    border-radius: 12px;
+    background: #fbfcfb;
+}
+
+.admin-auth-submit {
+    justify-content: space-between;
+    width: 100%;
+    min-height: 51px;
+    margin-top: 3px;
+    padding-inline: 19px;
+    border-radius: 12px;
+    box-shadow: 0 12px 26px rgba(55, 111, 77, 0.2);
+}
+
+.admin-auth-note {
+    margin: 25px 0 0;
+    padding-top: 20px;
+    color: #718078;
+    border-top: 1px solid var(--admin-border);
+    font-size: 11px;
+    line-height: 1.65;
+}
+
+.admin-auth-card-compact {
+    display: block;
+    width: min(590px, 100%);
+    min-height: 0;
+}
+
+.admin-auth-denied {
+    align-items: center;
+    min-height: 470px;
+    text-align: center;
+}
+
+.admin-auth-denied .admin-auth-kicker {
+    margin: 23px 0 11px;
+    color: var(--admin-danger);
+}
+
+.admin-auth-denied h1 {
+    margin: 0;
+    color: var(--admin-green-950);
+    font-size: clamp(27px, 5vw, 38px);
+    font-weight: 760;
+    letter-spacing: -0.035em;
+}
+
+.admin-auth-denied p:not(.admin-auth-kicker) {
+    margin: 15px 0 28px;
+    color: var(--admin-muted);
+}
+
+.admin-auth-denied-icon {
+    display: grid;
+    width: 62px;
+    height: 62px;
+    color: var(--admin-danger);
+    border-radius: 20px;
+    background: var(--admin-danger-soft);
+    font-size: 28px;
+    font-weight: 800;
+    place-items: center;
+}
+
+@media (max-width: 840px) {
+    .admin-auth-card {
+        grid-template-columns: 1fr;
+        min-height: 0;
+    }
+
+    .admin-auth-intro {
+        min-height: 270px;
+        padding: 34px;
+    }
+
+    .admin-auth-kicker {
+        margin-top: 46px;
+    }
+
+    .admin-auth-intro h1 {
+        font-size: clamp(29px, 7vw, 40px);
+    }
+
+    .admin-auth-features {
+        display: none;
+    }
+
+    .admin-auth-panel {
+        padding: 42px 34px;
+    }
+}
+
+@media (max-width: 520px) {
+    .admin-auth-page {
+        align-items: start;
+        padding: 12px;
+    }
+
+    .admin-auth-card {
+        border-radius: 20px;
+    }
+
+    .admin-auth-intro {
+        min-height: 235px;
+        padding: 27px 24px;
+    }
+
+    .admin-auth-kicker {
+        margin-top: 35px;
+    }
+
+    .admin-auth-intro h1 + p {
+        display: none;
+    }
+
+    .admin-auth-panel {
+        padding: 34px 24px;
+    }
+
+    .admin-auth-heading h2 {
+        font-size: 29px;
+    }
+}
+
+/* ==========================================================================
+   ADMIN LIQUID GLASS SYSTEM & BOTANICAL ATMOSPHERE
+   ========================================================================== */
+
+/* 1. TOP TIMELINE PROGRESS SCRUBBER & BOTANICAL CANVAS */
+#presentation-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3.5px;
+    background: linear-gradient(90deg, #10b981 0%, #34d399 40%, #a3e635 100%);
+    box-shadow: 0 0 16px rgba(52, 211, 153, 0.8), 0 0 32px rgba(163, 230, 53, 0.4);
+    z-index: 99999;
+    pointer-events: none;
+    transition: width 0.08s linear;
+}
+
+#botanical-ambient-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+}
+
+/* 2. GLOBAL ADMIN TYPOGRAPHY & AMBIENT CANVAS BACKGROUND */
+.admin-body {
+    font-family: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    background:
+        radial-gradient(circle at 12% 16%, rgba(209, 250, 229, 0.45) 0%, transparent 40%),
+        radial-gradient(circle at 88% 82%, rgba(236, 253, 245, 0.5) 0%, transparent 45%),
+        #f8faf7 !important;
+    background-attachment: fixed !important;
+    color: #1b2620;
+}
+
+.admin-shell,
+.admin-auth-page {
+    position: relative;
+    z-index: 1;
+}
+
+/* 3. DUAL-CHAMBER LIQUID GLASS AUTH CARD */
+.admin-auth-card {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    width: min(1040px, 100%);
+    min-height: 610px;
+    overflow: hidden;
+    border-radius: 36px !important;
+    background: rgba(255, 255, 255, 0.78) !important;
+    backdrop-filter: blur(32px) saturate(220%) !important;
+    -webkit-backdrop-filter: blur(32px) saturate(220%) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.9) !important;
+    box-shadow:
+        0 35px 90px rgba(10, 35, 24, 0.16),
+        inset 0 2px 2px 0 rgba(255, 255, 255, 1),
+        inset 0 -2px 3px 0 rgba(16, 185, 129, 0.2) !important;
+}
+
+.admin-auth-intro {
+    background: linear-gradient(145deg, #071911 0%, #0d2e20 50%, #17422e 100%) !important;
+    color: #deeadf !important;
+    box-shadow: inset -1.5px 0 2px 0 rgba(16, 185, 129, 0.25) !important;
+}
+
+.admin-auth-intro h1 {
+    font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    line-height: 1.22 !important;
+    letter-spacing: -0.03em !important;
+}
+
+.admin-auth-panel {
+    background: rgba(255, 255, 255, 0.65) !important;
+    backdrop-filter: blur(24px) !important;
+}
+
+.admin-auth-heading h2 {
+    font-family: "Playfair Display", Georgia, serif !important;
+    font-weight: 800 !important;
+    color: #0f2e20 !important;
+}
+
+/* 4. LIQUID INPUTS & FORM CONTROLS */
+.admin-field input,
+.admin-field select,
+.admin-field textarea,
+.admin-form-control,
+.admin-search-input {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(16px) saturate(190%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(190%) !important;
+    border: 1.5px solid rgba(45, 106, 79, 0.2) !important;
+    border-radius: 14px !important;
+    color: #0f2e20 !important;
+    font-weight: 500;
+    box-shadow: inset 0 1.5px 2px rgba(10, 35, 24, 0.03), 0 2px 6px rgba(255, 255, 255, 0.8) !important;
+    transition: border-color 200ms ease, box-shadow 200ms ease, background 200ms ease !important;
+}
+
+.admin-field input:focus,
+.admin-field select:focus,
+.admin-field textarea:focus,
+.admin-form-control:focus,
+.admin-search-input:focus {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border-color: #10b981 !important;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.9) !important;
+    outline: none !important;
+}
+
+/* 5. LIQUID BUTTONS */
+.admin-button-primary,
+.admin-auth-submit {
+    position: relative;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 999px !important;
+    padding: 13px 26px !important;
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.28), inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.6) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.3px;
+    overflow: hidden;
+    transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease !important;
+}
+
+.admin-button-primary:hover,
+.admin-auth-submit:hover {
+    transform: translateY(-2px) !important;
+    background: linear-gradient(135deg, #34d399 0%, #047857 100%) !important;
+    box-shadow: 0 16px 36px rgba(16, 185, 129, 0.38), inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.85) !important;
+    color: #ffffff !important;
+}
+
+.admin-button-secondary,
+.admin-button-light,
+.admin-button-ghost {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1.5px solid rgba(45, 106, 79, 0.22) !important;
+    border-radius: 999px !important;
+    color: #0f3d28 !important;
+    padding: 11px 24px !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    box-shadow: 0 4px 14px rgba(10, 35, 24, 0.05), inset 0 1px 1px #fff !important;
+    transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease, border-color 200ms ease !important;
+}
+
+.admin-button-secondary:hover,
+.admin-button-light:hover,
+.admin-button-ghost:hover {
+    transform: translateY(-2px) !important;
+    background: rgba(236, 253, 245, 0.95) !important;
+    border-color: #10b981 !important;
+    color: #065f46 !important;
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.16) !important;
+}
+
+.admin-button-danger {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 999px !important;
+    padding: 10px 22px !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.2px !important;
+    text-decoration: none !important;
+    box-shadow: 0 8px 22px rgba(239, 68, 68, 0.25), inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.6) !important;
+    transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease !important;
+}
+
+.admin-button-danger:hover:not(:disabled) {
+    transform: translateY(-2px) !important;
+    background: linear-gradient(135deg, #f87171 0%, #dc2626 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 14px 30px rgba(239, 68, 68, 0.35), inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.85) !important;
+}
+
+.admin-filter-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin-top: 0 !important;
+}
+
+.admin-action-btn.admin-action-danger,
+.admin-action-danger {
+    color: #ef4444 !important;
+    border-radius: 999px !important;
+    transition: all 180ms ease !important;
+}
+
+.admin-action-btn.admin-action-danger:hover,
+.admin-action-danger:hover {
+    background: rgba(239, 68, 68, 0.12) !important;
+    color: #dc2626 !important;
+    transform: scale(1.08) !important;
+}
+
+/* 6. ADMIN DASHBOARD & SIDEBAR */
+.admin-sidebar {
+    background: rgba(7, 25, 17, 0.94) !important;
+    backdrop-filter: blur(28px) saturate(210%) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(210%) !important;
+    border-right: 1px solid rgba(16, 185, 129, 0.22) !important;
+    box-shadow: 10px 0 35px rgba(10, 35, 24, 0.15) !important;
+}
+
+.admin-header {
+    background: rgba(255, 255, 255, 0.82) !important;
+    backdrop-filter: blur(26px) saturate(210%) !important;
+    -webkit-backdrop-filter: blur(26px) saturate(210%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.9) !important;
+    box-shadow:
+        0 10px 30px rgba(10, 35, 24, 0.04),
+        inset 0 -1.5px 2px 0 rgba(16, 185, 129, 0.1) !important;
+}
+
+.admin-card,
+.admin-table-card,
+.admin-summary-card {
+    background: rgba(255, 255, 255, 0.78) !important;
+    backdrop-filter: blur(28px) saturate(210%) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(210%) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.88) !important;
+    border-radius: 26px !important;
+    box-shadow:
+        0 20px 50px rgba(10, 35, 24, 0.06),
+        inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.95),
+        inset 0 -1.5px 2px 0 rgba(16, 185, 129, 0.12) !important;
+}
+
+.admin-stat-card {
+    background: rgba(255, 255, 255, 0.82) !important;
+    backdrop-filter: blur(24px) saturate(200%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.9) !important;
+    border-radius: 22px !important;
+    box-shadow:
+        0 14px 38px rgba(10, 35, 24, 0.05),
+        inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 1),
+        inset 0 -1px 2px 0 rgba(16, 185, 129, 0.1) !important;
+    transition: transform 220ms ease, box-shadow 220ms ease !important;
+}
+
+.admin-stat-card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow:
+        0 22px 55px rgba(10, 35, 24, 0.1),
+        inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 1),
+        inset 0 -1.5px 2px 0 rgba(16, 185, 129, 0.2) !important;
+}
+
+.admin-stat-number {
+    font-family: var(--font-serif);
+    font-weight: 800;
+    color: #059669;
+}
+
+.admin-nav-link.active {
+    background: rgba(16, 185, 129, 0.18) !important;
+    border: 1px solid rgba(16, 185, 129, 0.35) !important;
+    color: #6ee7b7 !important;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
+}
+
+
+/* =========================================================================
+   OPENAI GPT-6 ASTRA ADMIN COMMAND CENTER THEME
+   Deep Cosmic Obsidian, Frosted Dark Acrylic Cards, Glowing Metrics
+   ========================================================================= */
+
+body.admin-body.astra-experience {
+    background: #030604 !important;
+    background-image: 
+        radial-gradient(circle at 50% 12%, rgba(16, 185, 129, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 85% 35%, rgba(52, 211, 153, 0.06) 0%, transparent 40%),
+        linear-gradient(180deg, #020403 0%, #040906 45%, #020503 100%) !important;
+    color: #ffffff !important;
+    min-height: 100vh;
+}
+
+body.admin-body.astra-experience .admin-sidebar {
+    background: rgba(10, 18, 14, 0.95) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(28px) !important;
+    box-shadow: 4px 0 25px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.admin-body.astra-experience .admin-header {
+    background: rgba(10, 18, 14, 0.85) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(20px) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+body.admin-body.astra-experience .admin-header-title {
+    color: #ffffff !important;
+}
+
+body.admin-body.astra-experience .admin-header-subtitle {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+body.admin-body.astra-experience .admin-breadcrumb {
+    color: rgba(255, 255, 255, 0.55) !important;
+}
+
+body.admin-body.astra-experience .admin-breadcrumb a {
+    color: #34d399 !important;
+}
+
+/* Metric Cards in Astra Mode */
+body.admin-body.astra-experience .admin-metric-card,
+body.admin-body.astra-experience .admin-stat-card {
+    background: rgba(13, 22, 17, 0.78) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 20px !important;
+    backdrop-filter: blur(24px) !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
+    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease !important;
+}
+
+body.admin-body.astra-experience .admin-metric-card:hover,
+body.admin-body.astra-experience .admin-stat-card:hover {
+    transform: translateY(-4px) !important;
+    border-color: rgba(52, 211, 153, 0.35) !important;
+    box-shadow: 0 22px 55px rgba(16, 185, 129, 0.18), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.18) !important;
+}
+
+body.admin-body.astra-experience .admin-metric-card strong,
+body.admin-body.astra-experience .admin-stat-number {
+    color: #34d399 !important;
+    font-size: 1.85rem !important;
+    font-weight: 800 !important;
+    text-shadow: 0 0 16px rgba(52, 211, 153, 0.35) !important;
+}
+
+body.admin-body.astra-experience .admin-metric-card span {
+    color: rgba(255, 255, 255, 0.65) !important;
+}
+
+body.admin-body.astra-experience .admin-metric-card small {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Panels & Content Windows in Astra Mode */
+body.admin-body.astra-experience .admin-panel {
+    background: rgba(13, 22, 17, 0.78) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 24px !important;
+    backdrop-filter: blur(28px) !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), inset 0 1px 1.5px rgba(255, 255, 255, 0.1) !important;
+    padding: 24px !important;
+}
+
+body.admin-body.astra-experience .admin-panel h2,
+body.admin-body.astra-experience .admin-panel h3 {
+    color: #ffffff !important;
+}
+
+body.admin-body.astra-experience .admin-panel-kicker {
+    color: #34d399 !important;
+    font-weight: 600 !important;
+}
+
+body.admin-body.astra-experience .admin-text-link {
+    color: #34d399 !important;
+    text-decoration: none !important;
+}
+
+/* Tables in Astra Mode */
+body.admin-body.astra-experience .admin-table {
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+body.admin-body.astra-experience .admin-table th {
+    background: transparent !important;
+    color: rgba(255, 255, 255, 0.55) !important;
+    font-size: 0.8rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 14px 16px !important;
+}
+
+body.admin-body.astra-experience .admin-table td {
+    background: transparent !important;
+    color: #ffffff !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    padding: 14px 16px !important;
+}
+
+body.admin-body.astra-experience .admin-table tbody tr:hover td {
+    background: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* Forms & Inputs in Astra Mode */
+body.admin-body.astra-experience .admin-input,
+body.admin-body.astra-experience .admin-select,
+body.admin-body.astra-experience .form-control,
+body.admin-body.astra-experience .form-select {
+    background: rgba(14, 24, 18, 0.75) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    color: #ffffff !important;
+    border-radius: 12px !important;
+    backdrop-filter: blur(14px) !important;
+}
+
+body.admin-body.astra-experience .admin-input:focus,
+body.admin-body.astra-experience .admin-select:focus,
+body.admin-body.astra-experience .form-control:focus,
+body.admin-body.astra-experience .form-select:focus {
+    background: rgba(18, 32, 24, 0.9) !important;
+    border-color: #34d399 !important;
+    box-shadow: 0 0 18px rgba(52, 211, 153, 0.35) !important;
+    color: #ffffff !important;
+}
+
+body.admin-body.astra-experience .admin-input::placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+}
+
+body.admin-body.astra-experience .admin-select option {
+    background: #09120c !important;
+    color: #ffffff !important;
+}
+
+/* Pills and Badges in Astra Mode */
+body.admin-body.astra-experience .admin-badge {
+    border-radius: 999px !important;
+    padding: 5px 14px !important;
+    font-weight: 600 !important;
+}
+
+body.admin-body.astra-experience .badge-active,
+body.admin-body.astra-experience .badge-completed {
+    background: rgba(16, 185, 129, 0.2) !important;
+    border: 1px solid rgba(52, 211, 153, 0.4) !important;
+    color: #6ee7b7 !important;
+}
+
+body.admin-body.astra-experience .badge-pending {
+    background: rgba(245, 158, 11, 0.2) !important;
+    border: 1px solid rgba(251, 191, 36, 0.4) !important;
+    color: #fcd34d !important;
+}
+
+body.admin-body.astra-experience .badge-inactive,
+body.admin-body.astra-experience .badge-cancelled {
+    background: rgba(239, 68, 68, 0.2) !important;
+    border: 1px solid rgba(248, 113, 113, 0.4) !important;
+    color: #fca5a5 !important;
+}
+
+/* Pagination in Astra Mode */
+body.admin-body.astra-experience .admin-pagination-link {
+    background: rgba(14, 24, 18, 0.75) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    border-radius: 999px !important;
+}
+
+body.admin-body.astra-experience .admin-pagination-link.active {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    border-color: #34d399 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 16px rgba(16, 185, 129, 0.5) !important;
+}
+
+/* --- Admin Topbar & Header Dark Acrylic Polish --- */
+body.admin-body.astra-experience .admin-topbar {
+    background: rgba(8, 15, 11, 0.92) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(20px) !important;
+}
+
+body.admin-body.astra-experience .admin-page-heading h1 {
+    color: #ffffff !important;
+    font-family: "Plus Jakarta Sans", "Inter", sans-serif !important;
+    font-weight: 750 !important;
+}
+
+body.admin-body.astra-experience .admin-eyebrow {
+    color: #34d399 !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.14em !important;
+}
+
+body.admin-body.astra-experience .admin-account-copy small {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+body.admin-body.astra-experience .admin-account-copy strong {
+    color: #ffffff !important;
+}
+
+body.admin-body.astra-experience .admin-account-avatar {
+    background: rgba(52, 211, 153, 0.2) !important;
+    border: 1px solid rgba(52, 211, 153, 0.5) !important;
+    color: #34d399 !important;
+}
+
+/* --- Admin Dashboard Quick Links & Health Card Polish --- */
+body.admin-body.astra-experience .admin-quick-links > a {
+    color: #ffffff !important;
+    border-radius: 12px !important;
+    transition: all 160ms ease !important;
+}
+
+body.admin-body.astra-experience .admin-quick-links strong {
+    color: #ffffff !important;
+    font-size: 13px !important;
+}
+
+body.admin-body.astra-experience .admin-quick-links small {
+    color: rgba(255, 255, 255, 0.55) !important;
+}
+
+body.admin-body.astra-experience .admin-quick-links > a:hover {
+    background: rgba(255, 255, 255, 0.06) !important;
+    color: #34d399 !important;
+}
+
+body.admin-body.astra-experience .quick-link-icon {
+    background: rgba(16, 185, 129, 0.2) !important;
+    color: #34d399 !important;
+    border: 1px solid rgba(52, 211, 153, 0.35) !important;
+}
+
+body.admin-body.astra-experience .admin-health-card {
+    background: rgba(14, 24, 18, 0.85) !important;
+    border: 1px solid rgba(52, 211, 153, 0.3) !important;
+    color: #6ee7b7 !important;
+    border-radius: 14px !important;
+}
+
+body.admin-body.astra-experience .admin-health-card strong {
+    color: #ffffff !important;
+}
+
+body.admin-body.astra-experience .admin-health-card p {
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+
+body.admin-body.astra-experience .admin-health-card.needs-attention {
+    background: rgba(32, 22, 10, 0.85) !important;
+    border-color: rgba(245, 158, 11, 0.4) !important;
+    color: #fcd34d !important;
+}
+
+/* --- Admin Filter Panel & Form Fields Polish --- */
+body.admin-body.astra-experience .admin-filter-panel {
+    background: rgba(12, 20, 15, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 20px !important;
+    backdrop-filter: blur(24px) !important;
+}
+
+body.admin-body.astra-experience .admin-field label {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+body.admin-body.astra-experience .admin-field input:not([type="checkbox"]),
+body.admin-body.astra-experience .admin-field select,
+body.admin-body.astra-experience .admin-field textarea,
+body.admin-body.astra-experience .admin-role-form select {
+    background: rgba(14, 24, 18, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    color: #ffffff !important;
+    border-radius: 12px !important;
+    backdrop-filter: blur(14px) !important;
+}
+
+body.admin-body.astra-experience .admin-field input:focus,
+body.admin-body.astra-experience .admin-field select:focus,
+body.admin-body.astra-experience .admin-field textarea:focus {
+    background: rgba(18, 32, 24, 0.95) !important;
+    border-color: #34d399 !important;
+    box-shadow: 0 0 16px rgba(52, 211, 153, 0.35) !important;
+    color: #ffffff !important;
+}
+
+body.admin-body.astra-experience .admin-input-with-icon > span {
+    color: rgba(255, 255, 255, 0.45) !important;
+}
+
+body.admin-body.astra-experience .admin-field select option {
+    background: #08100b !important;
+    color: #ffffff !important;
+}
+
+/* --- Admin Table Product Cells & Actions Contrast --- */
+body.admin-body.astra-experience .admin-product-cell strong,
+body.admin-body.astra-experience .admin-user-cell strong {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+body.admin-body.astra-experience .admin-product-cell small,
+body.admin-body.astra-experience .admin-user-cell small,
+body.admin-body.astra-experience .admin-table-subtitle {
+    color: rgba(255, 255, 255, 0.55) !important;
+}
+
+body.admin-body.astra-experience .admin-stock {
+    color: #ffffff !important;
+}
+
+body.admin-body.astra-experience .admin-row-link {
+    color: #34d399 !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+}
+
+body.admin-body.astra-experience .admin-row-link:hover {
+    text-decoration: underline !important;
+}
+
+body.admin-body.astra-experience .admin-product-thumb {
+    background: rgba(14, 24, 18, 0.75) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body.admin-body.astra-experience .admin-action-btn,
+body.admin-body.astra-experience .admin-action-group a,
+body.admin-body.astra-experience .admin-action-group button {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+    transition: all 160ms ease !important;
+}
+
+body.admin-body.astra-experience .admin-action-btn:hover,
+body.admin-body.astra-experience .admin-action-group a:hover,
+body.admin-body.astra-experience .admin-action-group button:hover {
+    background: rgba(16, 185, 129, 0.25) !important;
+    border-color: #34d399 !important;
+    color: #34d399 !important;
+}
+
+body.admin-body.astra-experience .admin-empty-state h3 {
+    color: #ffffff !important;
+}
+
+body.admin-body.astra-experience .admin-empty-state p {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* --- Admin Icon Buttons & Pagination Controls Polish --- */
+body.admin-body.astra-experience .admin-icon-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    color: #34d399 !important;
+    font-size: 14px !important;
+    text-decoration: none !important;
+    transition: all 160ms ease !important;
+}
+
+body.admin-body.astra-experience .admin-icon-button:hover {
+    background: rgba(16, 185, 129, 0.25) !important;
+    border-color: #34d399 !important;
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 0 12px rgba(52, 211, 153, 0.3) !important;
+}
+
+body.admin-body.astra-experience .admin-pagination {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    color: rgba(255, 255, 255, 0.75) !important;
+    margin-top: 24px !important;
+}
+
+body.admin-body.astra-experience .pagination-control {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 8px 16px !important;
+    border-radius: 10px !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    color: #ffffff !important;
+    font-size: 0.88rem !important;
+    text-decoration: none !important;
+    transition: all 160ms ease !important;
+}
+
+body.admin-body.astra-experience .pagination-control:hover:not(.disabled) {
+    background: rgba(16, 185, 129, 0.2) !important;
+    border-color: #34d399 !important;
+    color: #34d399 !important;
+}
+
+body.admin-body.astra-experience .pagination-control.disabled {
+    opacity: 0.35 !important;
+    cursor: not-allowed !important;
+}
+
+/* --- Admin Form Panel & Switch Polish --- */
+body.admin-body.astra-experience .admin-form-panel {
+    background: rgba(12, 20, 15, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 20px !important;
+    backdrop-filter: blur(24px) !important;
+    padding: 28px !important;
+}
+
+body.admin-body.astra-experience .admin-input-suffix {
+    display: flex !important;
+    align-items: center !important;
+    background: rgba(14, 24, 18, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+}
+
+body.admin-body.astra-experience .admin-input-suffix input {
+    border: none !important;
+    background: transparent !important;
+}
+
+body.admin-body.astra-experience .admin-input-suffix span {
+    padding: 0 14px !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+    font-weight: 600 !important;
+}
+
+body.admin-body.astra-experience .admin-switch span strong {
+    color: #ffffff !important;
+}
+
+body.admin-body.astra-experience .admin-switch span small {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+body.admin-body.astra-experience .admin-switch input:checked + .admin-switch-track {
+    background: #10b981 !important;
+    border-color: #34d399 !important;
+}
+
+body.admin-body.astra-experience .admin-page-actions p {
+    color: rgba(255, 255, 255, 0.65) !important;
+}
+
+/* --- Admin Flash Alerts Contrast Fix --- */
+body.admin-body.astra-experience .admin-alert {
+    background: rgba(14, 24, 18, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(20px) !important;
+    border-radius: 14px !important;
+    color: #ffffff !important;
+    padding: 14px 20px !important;
+    margin-bottom: 24px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35) !important;
+}
+
+body.admin-body.astra-experience .admin-alert-success {
+    background: rgba(16, 185, 129, 0.15) !important;
+    border-color: rgba(52, 211, 153, 0.4) !important;
+    color: #6ee7b7 !important;
+}
+
+body.admin-body.astra-experience .admin-alert-danger {
+    background: rgba(239, 68, 68, 0.15) !important;
+    border-color: rgba(239, 68, 68, 0.4) !important;
+    color: #fca5a5 !important;
+}
+
+/* =========================================================================
+   CRITICAL FIX: ELIMINATE WHITE BACKGROUND ON CATEGORY CARDS & HOVER STATES
+   ========================================================================= */
+
+/* 1. Admin Table Row Hover (Never turn white on mouse hover) */
+body.admin-body.astra-experience .admin-table tbody tr {
+    background: transparent !important;
+    transition: background 150ms ease !important;
+}
+
+body.admin-body.astra-experience .admin-table tbody tr:hover {
+    background: rgba(16, 185, 129, 0.12) !important;
+}
+
+body.admin-body.astra-experience .admin-table tbody tr:hover td {
+    color: #ffffff !important;
+}
+
+body.admin-body.astra-experience .admin-table tbody tr:hover .admin-product-cell strong,
+body.admin-body.astra-experience .admin-table tbody tr:hover .admin-user-cell strong {
+    color: #34d399 !important;
+}
+
+/* 2. Admin Category Cards (Convert from solid white to dark frosted acrylic) */
+body.admin-body.astra-experience .admin-category-card {
+    background: rgba(14, 24, 18, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 18px !important;
+    backdrop-filter: blur(24px) !important;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
+    transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease, background 200ms ease !important;
+}
+
+body.admin-body.astra-experience .admin-category-card:hover {
+    transform: translateY(-4px) !important;
+    border-color: rgba(52, 211, 153, 0.45) !important;
+    background: rgba(18, 32, 23, 0.92) !important;
+    box-shadow: 0 20px 50px rgba(16, 185, 129, 0.22) !important;
+}
+
+body.admin-body.astra-experience .admin-category-card h2 {
+    color: #ffffff !important;
+    font-size: 17px !important;
+    font-weight: 750 !important;
+    letter-spacing: -0.02em !important;
+}
+
+body.admin-body.astra-experience .admin-category-card:hover h2 {
+    color: #34d399 !important;
+}
+
+body.admin-body.astra-experience .admin-category-card p {
+    color: rgba(255, 255, 255, 0.65) !important;
+    font-size: 12px !important;
+    line-height: 1.6 !important;
+}
+
+body.admin-body.astra-experience .admin-category-icon {
+    background: rgba(16, 185, 129, 0.2) !important;
+    border: 1px solid rgba(52, 211, 153, 0.35) !important;
+    color: #34d399 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 0 14px rgba(16, 185, 129, 0.25) !important;
+}
+
+body.admin-body.astra-experience .admin-count-badge {
+    background: rgba(52, 211, 153, 0.15) !important;
+    border: 1px solid rgba(52, 211, 153, 0.35) !important;
+    color: #6ee7b7 !important;
+    font-weight: 700 !important;
+}
+
+/* 3. Admin Buttons (Eliminate light/white/pink backgrounds) */
+body.admin-body.astra-experience .admin-button-ghost {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+    transition: all 160ms ease !important;
+}
+
+body.admin-body.astra-experience .admin-button-ghost:hover {
+    background: rgba(255, 255, 255, 0.18) !important;
+    border-color: #34d399 !important;
+    color: #34d399 !important;
+}
+
+body.admin-body.astra-experience .admin-button-danger {
+    background: rgba(239, 68, 68, 0.12) !important;
+    border: 1px solid rgba(239, 68, 68, 0.35) !important;
+    color: #fca5a5 !important;
+    border-radius: 10px !important;
+    transition: all 160ms ease !important;
+}
+
+body.admin-body.astra-experience .admin-button-danger:hover:not(:disabled) {
+    background: #ef4444 !important;
+    border-color: #ef4444 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 16px rgba(239, 68, 68, 0.5) !important;
+    transform: translateY(-1px) !important;
+}
+
+body.admin-body.astra-experience .admin-button-danger:disabled,
+body.admin-body.astra-experience .admin-button:disabled {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: rgba(255, 255, 255, 0.3) !important;
+    cursor: not-allowed !important;
+    opacity: 0.5 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+/* =========================================================================
+   UNIVERSAL DARK GLASSMORPHISM OVERRIDES FOR ADMIN UI (NO WHITE BOXES)
+   ========================================================================= */
+
+body.admin-body.astra-experience .card,
+body.admin-body.astra-experience .admin-panel {
+    background: rgba(13, 22, 17, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 22px !important;
+    backdrop-filter: blur(28px) !important;
+    -webkit-backdrop-filter: blur(28px) !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+}
+
+body.admin-body.astra-experience .card-body {
+    background: transparent !important;
+    color: #ffffff !important;
+}
+
+body.admin-body.astra-experience .bg-white,
+body.admin-body.astra-experience .bg-light {
+    background: rgba(18, 30, 23, 0.6) !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+body.admin-body.astra-experience .admin-stat-card {
+    background: rgba(13, 22, 17, 0.82) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 20px !important;
+    backdrop-filter: blur(24px) !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
+}
+
+body.admin-body.astra-experience .admin-stat-card .text-muted {
+    color: rgba(255, 255, 255, 0.65) !important;
+    font-size: 0.8rem !important;
+    letter-spacing: 0.06em !important;
+}
+
+body.admin-body.astra-experience .admin-stat-card h3 {
+    color: #ffffff !important;
+    font-size: 1.85rem !important;
+    font-weight: 800 !important;
+    text-shadow: 0 0 18px rgba(52, 211, 153, 0.25) !important;
+}
+
+body.admin-body.astra-experience .admin-stat-card h3.text-success {
+    color: #34d399 !important;
+}
+
+/* Tables in Admin */
+body.admin-body.astra-experience .table {
+    --bs-table-bg: transparent !important;
+    --bs-table-color: #ffffff !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    margin-bottom: 0 !important;
+}
+
+body.admin-body.astra-experience .table thead,
+body.admin-body.astra-experience thead.table-light,
+body.admin-body.astra-experience .table-light {
+    background: rgba(255, 255, 255, 0.04) !important;
+    color: rgba(255, 255, 255, 0.75) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+body.admin-body.astra-experience .table thead th,
+body.admin-body.astra-experience thead.table-light th,
+body.admin-body.astra-experience .table-light th {
+    background: transparent !important;
+    color: rgba(255, 255, 255, 0.65) !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 14px 16px !important;
+}
+
+body.admin-body.astra-experience .table tbody tr td {
+    background: transparent !important;
+    color: #ffffff !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    padding: 14px 16px !important;
+    vertical-align: middle !important;
+}
+
+body.admin-body.astra-experience .table-hover tbody tr:hover td {
+    background: rgba(255, 255, 255, 0.04) !important;
+}
+
+/* Alerts / Flash Banners in Admin */
+body.admin-body.astra-experience .alert {
+    background: rgba(14, 28, 20, 0.9) !important;
+    border: 1px solid rgba(52, 211, 153, 0.35) !important;
+    color: #a7f3d0 !important;
+    border-radius: 16px !important;
+    backdrop-filter: blur(20px) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.admin-body.astra-experience .alert-danger {
+    background: rgba(38, 14, 14, 0.9) !important;
+    border-color: rgba(239, 68, 68, 0.4) !important;
+    color: #fca5a5 !important;
+}
+
+body.admin-body.astra-experience .alert-warning {
+    background: rgba(38, 28, 10, 0.9) !important;
+    border-color: rgba(245, 158, 11, 0.4) !important;
+    color: #fde68a !important;
+}
+
+body.admin-body.astra-experience .alert-info {
+    background: rgba(12, 26, 38, 0.9) !important;
+    border-color: rgba(56, 189, 248, 0.4) !important;
+    color: #bae6fd !important;
+}
+
+body.admin-body.astra-experience .alert .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%) !important;
+}
+
+/* Buttons in Admin */
+body.admin-body.astra-experience .btn-light {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+    transition: all 160ms ease !important;
+}
+
+body.admin-body.astra-experience .btn-light:hover {
+    background: rgba(255, 255, 255, 0.18) !important;
+    border-color: #34d399 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+body.admin-body.astra-experience .text-muted {
+    color: rgba(255, 255, 255, 0.55) !important;
+}
+
+body.admin-body.astra-experience .text-dark {
+    color: #ffffff !important;
+}
+
+/* Badges in Admin */
+body.admin-body.astra-experience .badge {
+    border-radius: 999px !important;
+    font-weight: 600 !important;
+    padding: 6px 12px !important;
+}
+
+body.admin-body.astra-experience .badge.bg-warning {
+    background: rgba(245, 158, 11, 0.2) !important;
+    border: 1px solid rgba(251, 191, 36, 0.4) !important;
+    color: #fcd34d !important;
+}
+
+body.admin-body.astra-experience .badge.bg-info {
+    background: rgba(14, 165, 233, 0.2) !important;
+    border: 1px solid rgba(56, 189, 248, 0.4) !important;
+    color: #7dd3fc !important;
+}
+
+body.admin-body.astra-experience .badge.bg-success {
+    background: rgba(16, 185, 129, 0.2) !important;
+    border: 1px solid rgba(52, 211, 153, 0.4) !important;
+    color: #6ee7b7 !important;
+}
+
+body.admin-body.astra-experience .badge.bg-danger {
+    background: rgba(239, 68, 68, 0.2) !important;
+    border: 1px solid rgba(248, 113, 113, 0.4) !important;
+    color: #fca5a5 !important;
+}
+
+body.admin-body.astra-experience .badge.bg-secondary {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+
+body.admin-body.astra-experience .badge.bg-light {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #34d399 !important;
+}
+
+/* Vibrant Astra Green Buttons in Admin */
+body.admin-body.astra-experience .btn-green,
+.btn-green {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(52, 211, 153, 0.5) !important;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35) !important;
+    font-weight: 600 !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+body.admin-body.astra-experience .btn-green:hover,
+.btn-green:hover {
+    background: linear-gradient(135deg, #34d399 0%, #10b981 100%) !important;
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 20px rgba(52, 211, 153, 0.5) !important;
+}
+
+body.admin-body.astra-experience .btn-green:active,
+.btn-green:active {
+    transform: translateY(1px) !important;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4) !important;
+}
+
+/* Bootstrap Modal Fix in Astra Admin */
+body.admin-body.astra-experience .modal,
+.modal {
+    z-index: 10550 !important;
+}
+
+body.admin-body.astra-experience .modal-backdrop,
+.modal-backdrop {
+    z-index: 10500 !important;
+    background-color: rgba(0, 0, 0, 0.75) !important;
+    backdrop-filter: blur(6px) !important;
+}
+
+body.admin-body.astra-experience .modal-dialog {
+    z-index: 10560 !important;
+    position: relative !important;
+}
+
+
+

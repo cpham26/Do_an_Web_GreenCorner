@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Thông báo lỗi {{ code }} - Green Corner{% endblock %}
+
+{% block content %}
+<div class="container py-5 text-center" style="min-height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <div class="astra-badge-pill mb-3">
+        <span class="astra-badge-dot" aria-hidden="true"></span>
+        <span>HỆ THỐNG PHẢN HỒI {{ code }}</span>
+    </div>
+    <h1 class="display-3 fw-bold green-text mb-3">{{ code }}</h1>
+    <p class="lead text-muted mb-4" style="max-width: 500px;">{{ message }}</p>
+    <div>
+        <a href="{{ url_for('main.index') }}" class="btn btn-green me-2">Về trang chủ</a>
+        <a href="{{ url_for('products.index') }}" class="btn btn-outline-secondary">Khám phá sản phẩm</a>
+    </div>
+</div>
+{% endblock %}

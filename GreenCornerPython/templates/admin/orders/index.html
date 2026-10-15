@@ -1,0 +1,96 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Quản Lý Đơn Hàng - Green Corner Admin{% endblock %}
+{% block page_title %}Danh sách đơn hàng{% endblock %}
+
+{% block content %}
+<div class="admin-panel">
+    <!-- Filter status pills -->
+    <div class="d-flex flex-wrap gap-2 mb-4">
+        {% set statuses = ['Tất cả', 'Chờ xác nhận', 'Đã xác nhận', 'Đang giao', 'Hoàn thành', 'Đã hủy'] %}
+        {% for st in statuses %}
+            <a href="{{ url_for('admin.orders', status=(st if st != 'Tất cả' else '')) }}" 
+               class="btn btn-sm {% if (not status and st == 'Tất cả') or status == st %}btn-success{% else %}btn-outline-secondary{% endif %} rounded-pill px-3">
+                {{ st }}
+            </a>
+        {% endfor %}
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Mã đơn</th>
+                    <th>Ngày đặt</th>
+                    <th>Người nhận &amp; SĐT</th>
+                    <th>Địa chỉ</th>
+                    <th>Thanh toán</th>
+                    <th>Tổng tiền</th>
+                    <th>Trạng thái</th>
+                    <th class="text-end">Chi tiết</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td class="fw-bold text-white">#GC-{{ order.order_id }}</td>
+                    <td class="text-muted small">{{ order.created_at | datetime }}</td>
+                    <td>
+                        <strong class="d-block text-white">{{ order.receiver_name }}</strong>
+                        <small class="text-muted">{{ order.phone }}</small>
+                    </td>
+                    <td class="text-muted small text-truncate" style="max-width: 220px;" title="{{ order.address }}">
+                        {{ order.address }}
+                    </td>
+                    <td>
+                        <span class="badge {% if order.payment_method == 'VietQR' %}bg-info{% else %}bg-secondary{% endif %}">
+                            {{ order.payment_method }}
+                        </span>
+                    </td>
+                    <td class="fw-bold text-success">{{ order.formatted_total }}</td>
+                    <td>
+                        {% if order.status == 'Chờ xác nhận' %}
+                            <span class="badge bg-warning">{{ order.status }}</span>
+                        {% elif order.status == 'Đã xác nhận' %}
+                            <span class="badge bg-info">{{ order.status }}</span>
+                        {% elif order.status == 'Đang giao' %}
+                            <span class="badge bg-primary">{{ order.status }}</span>
+                        {% elif order.status == 'Hoàn thành' %}
+                            <span class="badge bg-success">{{ order.status }}</span>
+                        {% else %}
+                            <span class="badge bg-danger">{{ order.status }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end">
+                        <a href="{{ url_for('admin.order_detail', order_id=order.order_id) }}" class="btn btn-sm btn-outline-success rounded-pill px-3">
+                            Xem &amp; Xử lý
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if pagination.pages > 1 %}
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if pagination.has_prev %}
+            <li class="page-item"><a class="page-link" href="{{ url_for('admin.orders', page=pagination.prev_num, status=status) }}">«</a></li>
+            {% endif %}
+            {% for p in pagination.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                {% if p %}
+                    <li class="page-item {% if p == pagination.page %}active{% endif %}">
+                        <a class="page-link" href="{{ url_for('admin.orders', page=p, status=status) }}">{{ p }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            {% if pagination.has_next %}
+            <li class="page-item"><a class="page-link" href="{{ url_for('admin.orders', page=pagination.next_num, status=status) }}">»</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

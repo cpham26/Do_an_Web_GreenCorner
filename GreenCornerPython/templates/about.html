@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Về Green Corner - Câu Chuyện Thương Hiệu{% endblock %}
+
+{% block content %}
+<section class="commerce-page py-5">
+    <div class="container">
+        <div class="row align-items-center g-5 mb-5">
+            <div class="col-lg-6">
+                <div class="astra-badge-pill mb-3">
+                    <span class="astra-badge-dot" aria-hidden="true"></span>
+                    <span>Về Chúng Tôi • Câu Chuyện Thương Hiệu</span>
+                </div>
+                <h1 class="display-5 fw-bold text-white mb-4">Kết Nối Con Người Với Năng Lượng Chữa Lành Từ Thực Vật</h1>
+                <p class="lead text-white-50 mb-3">
+                    Green Corner khởi nguồn từ mong muốn giản dị: mang mảng xanh thiên nhiên tinh tế vào từng góc bàn làm việc, từng căn hộ nhỏ giữa lòng đô thị bận rộn.
+                </p>
+                <p class="text-white-50">
+                    Chúng tôi không chỉ bán cây cảnh, mà gửi gắm giải pháp chăm sóc vi khí hậu sống động. Từng cây tại vườn ươm được tuyển chọn nghiêm ngặt theo tiêu chuẩn thực vật học hiện đại, bảo đảm sức sống kiên cường và khả năng thích nghi tốt nhất trong môi trường máy lạnh, thiếu nắng.
+                </p>
+                <div class="d-flex gap-4 mt-4">
+                    <div>
+                        <h3 class="fw-bold text-success mb-0">36+</h3>
+                        <small class="text-white-50">Giống cây tuyển chọn</small>
+                    </div>
+                    <div class="border-start border-secondary border-opacity-50 ps-4">
+                        <h3 class="fw-bold text-success mb-0">2.500+</h3>
+                        <small class="text-white-50">Góc xanh kiến tạo</small>
+                    </div>
+                    <div class="border-start border-secondary border-opacity-50 ps-4">
+                        <h3 class="fw-bold text-success mb-0">99.2%</h3>
+                        <small class="text-white-50">Hài lòng từ khách hàng</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="cart-table-wrapper p-2 rounded-4 overflow-hidden shadow-lg border border-secondary border-opacity-25">
+                    <img src="{{ url_for('static', filename='images/hero-tree.jpg') }}" alt="Vườn ươm Green Corner" class="img-fluid w-100 rounded-3 object-fit-cover" style="max-height: 480px;" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

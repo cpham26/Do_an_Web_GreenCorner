@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% block title %}Sản phẩm - Green Corner{% endblock %}
+
+{% block content %}
+<section class="product-section py-5" aria-labelledby="catalog-title">
+    <div class="container">
+        <div class="section-heading text-center mb-4">
+            <p>GREEN CORNER</p>
+            <h1 class="h2" id="catalog-title">
+                {% if selected_category %}{{ selected_category.category_name }}{% else %}Tất cả sản phẩm{% endif %}
+            </h1>
+            <span class="text-muted">Chọn một mầm xanh phù hợp với góc nhỏ của bạn.</span>
+        </div>
+
+        <!-- CATALOG TOOLBAR FILTER -->
+        <form method="get" action="{{ url_for('products.index') }}" class="catalog-toolbar p-3 p-lg-4 mb-4" role="search">
+            <div class="row g-3 align-items-end">
+                <div class="col-lg-4">
+                    <label for="catalog-search" class="form-label fw-semibold">Tìm sản phẩm</label>
+                    <div class="input-group">
+                        <span class="input-group-text" aria-hidden="true">⌕</span>
+                        <input type="search"
+                               id="catalog-search"
+                               name="q"
+                               value="{{ query }}"
+                               class="form-control"
+                               maxlength="100"
+                               placeholder="Tên cây, mô tả, danh mục…" />
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-lg-3">
+                    <label for="catalog-category" class="form-label fw-semibold">Danh mục</label>
+                    <select id="catalog-category" name="categoryId" class="form-select">
+                        <option value="">Tất cả danh mục</option>
+                        {% for cat in categories %}
+                            <option value="{{ cat.category_id }}" {% if category_id == cat.category_id %}selected{% endif %}>
+                                {{ cat.category_name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-sm-6 col-lg-3">
+                    <label for="catalog-sort" class="form-label fw-semibold">Sắp xếp</label>
+                    <select id="catalog-sort" name="sort" class="form-select">
+                        <option value="newest" {% if sort_option == 'newest' %}selected{% endif %}>Mới nhất</option>
+                        <option value="price-asc" {% if sort_option == 'price-asc' %}selected{% endif %}>Giá thấp đến cao</option>
+                        <option value="price-desc" {% if sort_option == 'price-desc' %}selected{% endif %}>Giá cao đến thấp</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-2 d-grid">
+                    <button type="submit" class="btn btn-green">Áp dụng</button>
+                </div>
+
+                <div class="col-12 d-flex flex-wrap justify-content-between align-items-center gap-3">
+                    <div class="form-check catalog-stock-filter">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               name="inStockOnly"
+                               value="true"
+                               id="catalog-in-stock"
+                               {% if in_stock_only %}checked{% endif %} />
+                        <label class="form-check-label text-white-50" for="catalog-in-stock">
+                            Chỉ xem sản phẩm còn hàng
+                        </label>
+                    </div>
+
+                    {% if query or category_id or sort_option != 'newest' or in_stock_only %}
+                        <a href="{{ url_for('products.index') }}" class="catalog-reset-link text-success">
+                            Xóa bộ lọc
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </form>
+
+        <!-- Category Pills Navigation -->
+        <div class="d-flex flex-wrap gap-2 mb-4">
+            <a href="{{ url_for('products.index', q=query, sort=sort_option) }}" 
+               class="catalog-category-pill {% if not category_id %}active{% endif %}">
+                Tất cả ({{ pagination.total }})
+            </a>
+            {% for cat in categories %}
+                <a href="{{ url_for('products.index', categoryId=cat.category_id, q=query, sort=sort_option) }}" 
+                   class="catalog-category-pill {% if category_id == cat.category_id %}active{% endif %}">
+                    {{ cat.category_name }}
+                </a>
+            {% endfor %}
+        </div>
+
+        <div class="catalog-result-summary d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+            <p class="mb-0 text-muted">
+                Tìm thấy <strong class="text-white">{{ pagination.total }}</strong> sản phẩm
+                {% if pagination.pages > 1 %}
+                    <span>· Trang {{ pagination.page }}/{{ pagination.pages }}</span>
+                {% endif %}
+            </p>
+        </div>
+
+        {% if products %}
+            <div class="row g-4">
+                {% for product in products %}
+                    {% set badgeText = 'HẾT HÀNG' if product.quantity <= 0 else ('BÁN CHẠY' if product.product_id % 3 == 0 else ('MỚI' if product.product_id % 3 == 1 else 'FREESHIP')) %}
+                    {% set badgeClass = 'badge-out' if product.quantity <= 0 else ('badge-hot' if product.product_id % 3 == 0 else ('badge-new' if product.product_id % 3 == 1 else 'badge-ship')) %}
+                    {% set reviewCount = 24 + (product.product_id * 13) % 95 %}
+
+                    <div class="col-6 col-md-6 col-lg-4 col-xl-3">
+                        <article class="product-card h-100">
+                            <span class="product-commercial-badge {{ badgeClass }}">{{ badgeText }}</span>
+                            <a href="{{ url_for('products.detail', product_id=product.product_id) }}" class="product-image-link" aria-label="Xem chi tiết {{ product.product_name }}">
+                                <div class="product-image">
+                                    <img src="{{ product.image_url }}" alt="{{ product.product_name }}" class="product-photo" loading="lazy" />
+                                </div>
+                            </a>
+
+                            <div class="product-info">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <small class="product-cat-name">{{ product.category.category_name }}</small>
+                                    <div class="product-rating" aria-label="Đánh giá 4.9 sao">
+                                        <span class="rating-stars">★★★★★</span>
+                                        <span class="rating-num">4.9</span>
+                                        <span class="rating-cnt">({{ reviewCount }})</span>
+                                    </div>
+                                </div>
+
+                                <h2 class="h5">
+                                    <a href="{{ url_for('products.detail', product_id=product.product_id) }}" class="product-name-link">
+                                        {{ product.product_name }}
+                                    </a>
+                                </h2>
+
+                                {% if product.quantity > 0 %}
+                                    <p class="product-stock">Còn {{ product.quantity }} sản phẩm</p>
+                                {% else %}
+                                    <p class="product-stock text-danger fw-semibold">Tạm hết hàng</p>
+                                {% endif %}
+
+                                <div class="product-bottom">
+                                    <div class="price-stack">
+                                        <span class="price">{{ product.formatted_price }}</span>
+                                    </div>
+
+                                    {% if product.quantity > 0 %}
+                                        <form action="{{ url_for('cart.add', product_id=product.product_id) }}" method="post" class="m-0">
+                                            <button type="submit" class="btn-cart" title="Thêm vào giỏ hàng" aria-label="Thêm {{ product.product_name }} vào giỏ hàng">
+                                                🛒
+                                            </button>
+                                        </form>
+                                    {% else %}
+                                        <button type="button" class="btn-cart" title="Sản phẩm đã hết hàng" disabled>
+                                            🛒
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if pagination.pages > 1 %}
+            <nav class="mt-5" aria-label="Phân trang sản phẩm">
+                <ul class="pagination justify-content-center flex-wrap">
+                    {% if pagination.has_prev %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('products.index', page=pagination.prev_num, q=query, categoryId=category_id, sort=sort_option, inStockOnly=('true' if in_stock_only else '')) }}">‹</a>
+                    </li>
+                    {% endif %}
+
+                    {% for p in pagination.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                        {% if p %}
+                            <li class="page-item {% if p == pagination.page %}active{% endif %}">
+                                <a class="page-link" href="{{ url_for('products.index', page=p, q=query, categoryId=category_id, sort=sort_option, inStockOnly=('true' if in_stock_only else '')) }}">{{ p }}</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled"><span class="page-link">…</span></li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if pagination.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('products.index', page=pagination.next_num, q=query, categoryId=category_id, sort=sort_option, inStockOnly=('true' if in_stock_only else '')) }}">›</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+
+        {% else %}
+            <div class="catalog-empty text-center py-5">
+                <div class="display-4 mb-3" aria-hidden="true">🌱</div>
+                <h2 class="h4">Chưa tìm thấy sản phẩm phù hợp</h2>
+                <p class="text-muted">Hãy thử từ khóa khác hoặc bỏ bớt bộ lọc đang chọn.</p>
+                <a href="{{ url_for('products.index') }}" class="btn btn-outline-green">
+                    Xem toàn bộ sản phẩm
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
