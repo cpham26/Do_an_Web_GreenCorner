@@ -28,9 +28,46 @@
                                 <span class="badge bg-light">{{ cat.products.count() }}</span>
                             </td>
                             <td class="text-end">
-                                <form action="{{ url_for('admin.delete_category', category_id=cat.category_id) }}" method="post" onsubmit="return confirm('Bạn có chắc muốn xóa danh mục này?');">
-                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Xóa">✕</button>
-                                </form>
+                                <div class="d-inline-flex gap-1">
+                                    <button type="button"
+                                            class="btn btn-sm btn-outline-info"
+                                            title="Chỉnh sửa"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#editCategoryModal-{{ cat.category_id }}">
+                                        ✎
+                                    </button>
+                                    <form action="{{ url_for('admin.delete_category', category_id=cat.category_id) }}" method="post" onsubmit="return confirm('Bạn có chắc muốn xóa danh mục này?');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Xóa">✕</button>
+                                    </form>
+                                </div>
+
+                                <!-- Edit Category Modal -->
+                                <div class="modal fade text-start" id="editCategoryModal-{{ cat.category_id }}" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content bg-dark text-white border border-secondary">
+                                            <form method="post" action="{{ url_for('admin.edit_category', category_id=cat.category_id) }}">
+                                                <div class="modal-header border-secondary">
+                                                    <h5 class="modal-title">Chỉnh sửa danh mục</h5>
+                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="mb-3">
+                                                        <label class="form-label small fw-semibold text-white">Tên danh mục <span class="text-danger">*</span></label>
+                                                        <input type="text" name="category_name" class="form-control" required value="{{ cat.category_name }}" />
+                                                    </div>
+                                                    <div class="mb-0">
+                                                        <label class="form-label small fw-semibold text-white">Mô tả danh mục</label>
+                                                        <textarea name="description" rows="3" class="form-control">{{ cat.description or '' }}</textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer border-secondary">
+                                                    <button type="button" class="btn btn-outline-secondary rounded-pill px-3" data-bs-dismiss="modal">Hủy</button>
+                                                    <button type="submit" class="btn btn-green rounded-pill px-4">Lưu thay đổi</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         {% endfor %}

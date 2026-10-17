@@ -126,6 +126,24 @@
     <script src="{{ url_for('static', filename='lib/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var fallbackImg = "{{ url_for('static', filename='images/products/monstera.jpg') }}";
+        document.querySelectorAll('img').forEach(function (img) {
+            img.addEventListener('error', function () {
+                if (this.src && !this.dataset.fallbackApplied) {
+                    this.dataset.fallbackApplied = '1';
+                    this.src = fallbackImg;
+                }
+            });
+        });
+        document.querySelectorAll('.modal').forEach(function (m) {
+            if (m.parentElement !== document.body) {
+                document.body.appendChild(m);
+            }
+        });
+    });
+    </script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>

@@ -26,7 +26,7 @@
         <div class="row g-3 mb-3">
             <div class="col-md-6">
                 <label class="form-label small fw-semibold text-white">Giá bán (VNĐ) <span class="text-danger">*</span></label>
-                <input type="number" name="price" class="form-control" required min="1000" step="1000" value="{{ int(product.price) }}" />
+                <input type="number" name="price" class="form-control" required min="1000" step="1000" value="{{ product.price | int }}" />
             </div>
             <div class="col-md-6">
                 <label class="form-label small fw-semibold text-white">Số lượng tồn kho <span class="text-danger">*</span></label>

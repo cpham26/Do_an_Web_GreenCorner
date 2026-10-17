@@ -111,6 +111,8 @@ def init_db(app):
                 )
                 admin.set_password("admin123")
                 db.session.add(admin)
+            elif not (admin.password_hash or '').startswith(('scrypt:', 'pbkdf2:')):
+                admin.set_password("admin123")
 
         # 4. Seed Test Customer
         customer = User.query.filter_by(email="customer@gmail.com").first()
@@ -124,6 +126,8 @@ def init_db(app):
             )
             customer.set_password("123456")
             db.session.add(customer)
+        elif not (customer.password_hash or '').startswith(('scrypt:', 'pbkdf2:')):
+            customer.set_password("123456")
 
         db.session.commit()
         print(">> Database initialized and seeded successfully!")

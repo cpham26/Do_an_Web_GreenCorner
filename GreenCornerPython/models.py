@@ -22,16 +22,12 @@ class User(db.Model):
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
+        if not self.password_hash or not password:
+            return False
         try:
-            if check_password_hash(self.password_hash, password):
-                return True
+            return check_password_hash(self.password_hash, password)
         except Exception:
-            pass
-
-        # Fallback check for admin default credentials or legacy direct match
-        if self.role == 'Admin' and password in ('admin123', 'GC!67C46B87274D70B8FE3A252CD0A157E6a9'):
-            return True
-        return self.password_hash == password
+            return False
 
     @property
     def is_admin(self):
@@ -72,11 +68,12 @@ class Product(db.Model):
 
     @property
     def formatted_price(self):
-        return f"{int(self.price):,} ₫".replace(",", ".")
+        val = self.price if self.price is not None else 0
+        return f"{int(val):,} ₫".replace(",", ".")
 
     @property
     def is_in_stock(self):
-        return self.quantity > 0
+        return (self.quantity or 0) > 0
 
     def __repr__(self):
         return f'<Product {self.product_name}>'
@@ -103,7 +100,8 @@ class Order(db.Model):
 
     @property
     def formatted_total(self):
-        return f"{int(self.total_amount):,} ₫".replace(",", ".")
+        val = self.total_amount if self.total_amount is not None else 0
+        return f"{int(val):,} ₫".replace(",", ".")
 
     def __repr__(self):
         return f'<Order #{self.order_id}>'
@@ -124,7 +122,7 @@ class OrderDetail(db.Model):
 
     @property
     def line_total(self):
-        return self.quantity * self.unit_price
+        return (self.quantity or 0) * (self.unit_price or 0)
 
     @property
     def formatted_line_total(self):

@@ -1,9 +1,12 @@
+import re
 from decimal import Decimal
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from models import db, Product, Order, OrderDetail, User
 from routes.cart import get_cart_items
 
 checkout_bp = Blueprint('checkout', __name__)
+
+PHONE_REGEX = re.compile(r'^\+?[0-9]{9,15}$')
 
 @checkout_bp.route('/checkout', methods=['GET', 'POST'])
 def index():
@@ -17,35 +20,52 @@ def index():
     current_user = db.session.get(User, user_id) if user_id else None
 
     if request.method == 'POST':
-        receiver_name = request.form.get('receiver_name', '').strip()
-        phone = request.form.get('phone', '').strip()
-        address = request.form.get('address', '').strip()
-        shipping_speed = request.form.get('shipping_speed', 'Tiêu chuẩn')
-        payment_method = request.form.get('payment_method', 'VietQR')
-        order_notes = request.form.get('order_notes', '').strip()
+        receiver_name = request.form.get('receiver_name', '').strip()[:100]
+        raw_phone = request.form.get('phone', '').strip()
+        clean_phone = re.sub(r'[\s\-\.]', '', raw_phone)[:20]
+        address = request.form.get('address', '').strip()[:255]
+        shipping_speed = request.form.get('shipping_speed', 'Tiêu chuẩn').strip()
+        payment_method = request.form.get('payment_method', 'VietQR').strip()
+        order_notes = request.form.get('order_notes', '').strip()[:500]
 
-        if not receiver_name or not phone or not address:
+        if shipping_speed not in ('Tiêu chuẩn', 'Hỏa tốc'):
+            shipping_speed = 'Tiêu chuẩn'
+        if payment_method not in ('VietQR', 'COD'):
+            payment_method = 'VietQR'
+
+        if not receiver_name or not clean_phone or not address:
             flash('Vui lòng điền đầy đủ họ tên, số điện thoại và địa chỉ nhận hàng!', 'error')
             return redirect(url_for('checkout.index'))
 
-        # Calculate shipping fee: Free for standard if >= 300k, otherwise 30k. Express is +35k.
-        base_shipping = 0 if subtotal >= 300000 else 30000
-        shipping_fee = Decimal(35000 if shipping_speed == 'Hỏa tốc' else base_shipping)
-        total_amount = subtotal + shipping_fee
-
-        # Validate stock availability
-        for item in items:
-            product = db.session.get(Product, item['product'].product_id)
-            if product.quantity < item['quantity']:
-                flash(f'Sản phẩm "{product.product_name}" chỉ còn {product.quantity} sản phẩm trong kho!', 'error')
-                return redirect(url_for('cart.index'))
+        if not PHONE_REGEX.match(clean_phone):
+            flash('Số điện thoại không hợp lệ (vui lòng nhập từ 9 đến 15 chữ số)!', 'error')
+            return redirect(url_for('checkout.index'))
 
         try:
+            # Re-verify stock & active status and calculate exact server-side subtotal
+            verified_subtotal = Decimal(0)
+            verified_items = []
+            for item in items:
+                product = db.session.get(Product, item['product'].product_id)
+                if not product or not product.is_active:
+                    flash('Một sản phẩm trong giỏ hàng hiện đã ngừng kinh doanh. Vui lòng kiểm tra lại giỏ hàng!', 'error')
+                    return redirect(url_for('cart.index'))
+                if product.quantity < item['quantity']:
+                    flash(f'Sản phẩm "{product.product_name}" chỉ còn {product.quantity} chậu trong kho!', 'error')
+                    return redirect(url_for('cart.index'))
+                verified_subtotal += product.price * item['quantity']
+                verified_items.append((product, item['quantity']))
+
+            # Calculate shipping fee: Free for standard if >= 300k, otherwise 30k. Express is 35k.
+            base_shipping = 0 if verified_subtotal >= 300000 else 30000
+            shipping_fee = Decimal(35000 if shipping_speed == 'Hỏa tốc' else base_shipping)
+            total_amount = verified_subtotal + shipping_fee
+
             # Create Order
             order = Order(
                 user_id=current_user.user_id if current_user else None,
                 receiver_name=receiver_name,
-                phone=phone,
+                phone=clean_phone,
                 address=address,
                 shipping_speed=shipping_speed,
                 shipping_fee=shipping_fee,
@@ -58,17 +78,16 @@ def index():
             db.session.flush()
 
             # Create OrderDetails and deduct inventory
-            for item in items:
-                product = db.session.get(Product, item['product'].product_id)
+            for product, qty in verified_items:
                 detail = OrderDetail(
                     order_id=order.order_id,
                     product_id=product.product_id,
-                    quantity=item['quantity'],
+                    quantity=qty,
                     unit_price=product.price,
                     product_name_snapshot=product.product_name
                 )
                 db.session.add(detail)
-                product.quantity -= item['quantity']
+                product.quantity -= qty
 
             db.session.commit()
 
@@ -80,9 +99,9 @@ def index():
             flash('Đặt hàng thành công! Cảm ơn bạn đã lựa chọn Green Corner.', 'success')
             return redirect(url_for('checkout.success', order_id=order.order_id))
 
-        except Exception as e:
+        except Exception:
             db.session.rollback()
-            flash(f'Đã xảy ra lỗi khi tạo đơn hàng: {str(e)}', 'error')
+            flash('Đã xảy ra sự cố khi xử lý đơn hàng. Vui lòng thử lại!', 'error')
             return redirect(url_for('checkout.index'))
 
     # GET Request
@@ -108,10 +127,16 @@ def index():
 
 @checkout_bp.route('/checkout/success/<int:order_id>')
 def success(order_id):
-    order = Order.query.get_or_404(order_id)
+    order = db.get_or_404(Order, order_id)
+    user_id = session.get('user_id')
+    is_admin = (session.get('admin_role') == 'Admin') or (session.get('user_role') == 'Admin')
+    is_guest_allowed = session.get(f'guest_order_{order.order_id}') is True
+
+    if not is_admin and not is_guest_allowed and (not user_id or order.user_id != user_id):
+        flash('Bạn không có quyền xem thông tin đơn hàng này.', 'error')
+        return redirect(url_for('main.index'))
+
     amount_int = int(order.total_amount)
-    
-    # VietQR Napas247 URL
     vietqr_url = f"https://img.vietqr.io/image/MB-888868689999-compact2.png?amount={amount_int}&addInfo=GC%20{order.order_id}&accountName=GREEN%20CORNER"
 
     return render_template(

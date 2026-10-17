@@ -152,6 +152,11 @@
                         <a href="{{ url_for('products.detail', product_id=rel.product_id) }}" class="product-image-link">
                             <div class="product-image">
                                 <img src="{{ rel.image_url }}" alt="{{ rel.product_name }}" class="product-photo" loading="lazy" />
+                                {% if rel.quantity > 0 %}
+                                    <span class="stock-pill in-stock">Còn {{ rel.quantity }}</span>
+                                {% else %}
+                                    <span class="stock-pill out-of-stock">Hết hàng</span>
+                                {% endif %}
                             </div>
                         </a>
                         <div class="product-info">
@@ -160,8 +165,22 @@
                                     {{ rel.product_name }}
                                 </a>
                             </h4>
-                            <div class="price-stack">
+                            <div class="price-stack mb-2">
                                 <span class="price">{{ rel.formatted_price }}</span>
+                            </div>
+                            <div class="product-actions mt-auto">
+                                {% if rel.quantity > 0 %}
+                                <form action="{{ url_for('cart.add', product_id=rel.product_id) }}" method="post">
+                                    <input type="hidden" name="quantity" value="1" />
+                                    <button type="submit" class="btn btn-green btn-sm w-100">
+                                        🛒 Thêm vào giỏ
+                                    </button>
+                                </form>
+                                {% else %}
+                                <button class="btn btn-secondary btn-sm w-100" disabled>
+                                    Tạm hết hàng
+                                </button>
+                                {% endif %}
                             </div>
                         </div>
                     </article>

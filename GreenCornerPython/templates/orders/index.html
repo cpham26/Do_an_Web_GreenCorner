@@ -20,7 +20,8 @@
                 </a>
             </div>
         {% else %}
-            <div class="cart-table-wrapper order-list-card">
+            <!-- Desktop Order Table -->
+            <div class="cart-table-wrapper order-list-card d-none d-md-block">
                 <div class="table-responsive">
                     <table class="table align-middle">
                         <thead>
@@ -41,16 +42,16 @@
                                 <td>{{ order.created_at | datetime }}</td>
                                 <td>{{ order.receiver_name }}</td>
                                 <td>
-                                    <span class="badge {% if order.payment_method == 'VietQR' %}bg-info text-dark{% else %}bg-secondary{% endif %}">
+                                    <span class="badge {% if order.payment_method == 'VietQR' %}bg-info{% else %}bg-secondary{% endif %}">
                                         {{ order.payment_method }}
                                     </span>
                                 </td>
                                 <td class="fw-bold text-success">{{ order.formatted_total }}</td>
                                 <td>
                                     {% if order.status == 'Chờ xác nhận' %}
-                                        <span class="badge bg-warning text-dark">{{ order.status }}</span>
+                                        <span class="badge bg-warning">{{ order.status }}</span>
                                     {% elif order.status == 'Đã xác nhận' %}
-                                        <span class="badge bg-info text-dark">{{ order.status }}</span>
+                                        <span class="badge bg-info">{{ order.status }}</span>
                                     {% elif order.status == 'Đang giao' %}
                                         <span class="badge bg-primary">{{ order.status }}</span>
                                     {% elif order.status == 'Hoàn thành' %}
@@ -69,6 +70,40 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+
+            <!-- Mobile Order Cards -->
+            <div class="d-md-none d-flex flex-column gap-3">
+                {% for order in orders %}
+                <div class="cart-table-wrapper p-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <strong class="text-white fs-6">#GC-{{ order.order_id }}</strong>
+                        {% if order.status == 'Chờ xác nhận' %}
+                            <span class="badge bg-warning">{{ order.status }}</span>
+                        {% elif order.status == 'Đã xác nhận' %}
+                            <span class="badge bg-info">{{ order.status }}</span>
+                        {% elif order.status == 'Đang giao' %}
+                            <span class="badge bg-primary">{{ order.status }}</span>
+                        {% elif order.status == 'Hoàn thành' %}
+                            <span class="badge bg-success">{{ order.status }}</span>
+                        {% else %}
+                            <span class="badge bg-danger">{{ order.status }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="small text-muted mb-1">Ngày đặt: <span class="text-white">{{ order.created_at | datetime }}</span></div>
+                    <div class="small text-muted mb-1">Người nhận: <span class="text-white">{{ order.receiver_name }}</span></div>
+                    <div class="small text-muted mb-3">Thanh toán: <span class="text-white">{{ order.payment_method }}</span></div>
+                    <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25">
+                        <div>
+                            <small class="text-muted d-block">Tổng cộng</small>
+                            <strong class="text-success fs-6">{{ order.formatted_total }}</strong>
+                        </div>
+                        <a href="{{ url_for('orders.detail', order_id=order.order_id) }}" class="btn btn-sm btn-outline-green rounded-pill px-3">
+                            Xem chi tiết →
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         {% endif %}
     </div>

@@ -5,17 +5,23 @@ products_bp = Blueprint('products', __name__)
 
 @products_bp.route('/products')
 def index():
-    query = request.args.get('q', '').strip()
+    query = request.args.get('q', '').strip()[:100]
     category_id = request.args.get('categoryId', type=int)
     sort_option = request.args.get('sort', 'newest')
     in_stock_only = request.args.get('inStockOnly') == 'true'
-    page = request.args.get('page', 1, type=int)
+    page = max(1, request.args.get('page', 1, type=int) or 1)
     per_page = 12
 
     products_query = Product.query.filter_by(is_active=True)
 
     if query:
-        products_query = products_query.filter(Product.product_name.ilike(f'%{query}%'))
+        like_pattern = f'%{query}%'
+        products_query = products_query.filter(
+            db.or_(
+                Product.product_name.ilike(like_pattern),
+                Product.description.ilike(like_pattern)
+            )
+        )
 
     if category_id:
         products_query = products_query.filter_by(category_id=category_id)
@@ -28,6 +34,7 @@ def index():
     elif sort_option == 'price-desc':
         products_query = products_query.order_by(Product.price.desc())
     else:  # newest
+        sort_option = 'newest'
         products_query = products_query.order_by(Product.created_at.desc(), Product.product_id.desc())
 
     pagination = products_query.paginate(page=page, per_page=per_page, error_out=False)
@@ -49,7 +56,10 @@ def index():
 
 @products_bp.route('/products/<int:product_id>')
 def detail(product_id):
-    product = Product.query.get_or_404(product_id)
+    product = db.get_or_404(Product, product_id)
+    if not product.is_active:
+        abort(404)
+
     related_products = Product.query.filter(
         Product.category_id == product.category_id,
         Product.product_id != product.product_id,

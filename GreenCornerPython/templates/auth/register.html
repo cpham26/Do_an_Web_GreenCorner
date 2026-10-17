@@ -34,14 +34,15 @@
                 </div>
 
                 <form action="{{ url_for('auth.register') }}" method="post" class="auth-form">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token_val }}" />
                     <div class="form-field mb-3">
                         <label class="form-label text-white small fw-semibold">Họ và tên <span class="text-danger">*</span></label>
-                        <input type="text" name="full_name" class="form-control" required placeholder="Nguyễn Văn A" />
+                        <input type="text" name="full_name" class="form-control" required maxlength="100" placeholder="Nguyễn Văn A" value="{{ full_name or '' }}" />
                     </div>
 
                     <div class="form-field mb-3">
                         <label class="form-label text-white small fw-semibold">Địa chỉ Email <span class="text-danger">*</span></label>
-                        <input type="email" name="email" class="form-control" required placeholder="name@example.com" />
+                        <input type="email" name="email" class="form-control" required maxlength="100" placeholder="name@example.com" value="{{ email or '' }}" />
                     </div>
 
                     <div class="row g-2 mb-3">
@@ -57,12 +58,12 @@
 
                     <div class="form-field mb-3">
                         <label class="form-label text-white small fw-semibold">Số điện thoại</label>
-                        <input type="tel" name="phone" class="form-control" placeholder="09xxxxxxxx" />
+                        <input type="tel" name="phone" class="form-control" maxlength="20" placeholder="09xxxxxxxx" value="{{ phone or '' }}" />
                     </div>
 
                     <div class="form-field mb-4">
                         <label class="form-label text-white small fw-semibold">Địa chỉ nhận hàng</label>
-                        <input type="text" name="address" class="form-control" placeholder="Số nhà, đường, quận/huyện, tỉnh/thành" />
+                        <input type="text" name="address" class="form-control" maxlength="255" placeholder="Số nhà, đường, quận/huyện, tỉnh/thành" value="{{ address or '' }}" />
                     </div>
 
                     <button type="submit" class="btn btn-green w-100 py-3 fw-bold">

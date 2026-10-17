@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, request, session, redirect, url_for, flash, abort
-from models import Order
+from flask import Blueprint, render_template, request, session, redirect, url_for, flash
+from models import db, Order
 
 orders_bp = Blueprint('orders', __name__)
 
@@ -16,7 +16,7 @@ def index():
 
 @orders_bp.route('/orders/<int:order_id>')
 def detail(order_id):
-    order = Order.query.get_or_404(order_id)
+    order = db.get_or_404(Order, order_id)
     user_id = session.get('user_id')
     user_role = session.get('user_role')
 
@@ -45,3 +45,28 @@ def detail(order_id):
         status_steps=status_steps,
         current_step_index=current_step_index
     )
+
+
+@orders_bp.route('/orders/<int:order_id>/cancel', methods=['POST'])
+def cancel(order_id):
+    order = db.get_or_404(Order, order_id)
+    user_id = session.get('user_id')
+    is_admin = (session.get('admin_role') == 'Admin') or (session.get('user_role') == 'Admin')
+    is_guest_allowed = session.get(f'guest_order_{order.order_id}') is True
+
+    if not is_admin and not is_guest_allowed and (not user_id or order.user_id != user_id):
+        flash('Bạn không có quyền thao tác trên đơn hàng này.', 'error')
+        return redirect(url_for('orders.index'))
+
+    if order.status != 'Chờ xác nhận':
+        flash('Chỉ có thể hủy đơn hàng khi đang ở trạng thái "Chờ xác nhận"!', 'warning')
+        return redirect(url_for('orders.detail', order_id=order.order_id))
+
+    order.status = 'Đã hủy'
+    for detail_item in order.order_details:
+        if detail_item.product:
+            detail_item.product.quantity += detail_item.quantity
+
+    db.session.commit()
+    flash(f'Đã hủy đơn hàng #GC-{order.order_id} thành công.', 'success')
+    return redirect(url_for('orders.detail', order_id=order.order_id))
